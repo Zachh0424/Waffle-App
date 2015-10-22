@@ -1,0 +1,60 @@
+.page-container {
+    text-container: center;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    flex-direction: linear;
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+body {
+	background-color: rgb(190,120,190);
+}
+
+section {
+	text-align: center;
+	width: "match_parent";
+    margin-top: 250px;
+	padding: 40px;
+	background-color: rgb(225,175,255);
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+
+}
+input{
+	-moz-border-radius: 5px;
+	border-radius: 2px;
+   ! border:solid 1px black;
+   ! padding:5px;
+
+}
+
+@media screen and (orientation: landscape) {
+  .page-container.notification-opened {
+    -webkit-box-orient: horizontal;
+    flex-direction: row;
+  }
+
+  .page-container.notification-opened > .notification-arrow {
+    margin-right: 20px;
+  }
+}
+button {
+  display: block;
+  width: 100%;
+}
+
+@media screen and (min-width: 500px) {
+  button {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 350px) {
+  button {
+    width: 40%;
+    max-width: 400px;
+  }
+}
