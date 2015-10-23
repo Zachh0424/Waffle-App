@@ -425,7 +425,7 @@ int id action_menu_presenter 0x7f0c0003
 int id action_mode_bar 0x7f0c003d
 int id action_mode_bar_stub 0x7f0c003c
 int id action_mode_close_button 0x7f0c0025
-int id action_settings 0x7f0c0071
+int id action_settings 0x7f0c0074
 int id activity_chooser_view_content 0x7f0c0026
 int id alertTitle 0x7f0c0030
 int id always 0x7f0c0016
@@ -461,6 +461,7 @@ int id info 0x7f0c006d
 int id line1 0x7f0c0067
 int id line3 0x7f0c006b
 int id linearLayout 0x7f0c0052
+int id linearLayout2 0x7f0c0070
 int id listMode 0x7f0c0009
 int id listView 0x7f0c0055
 int id list_item 0x7f0c002a
@@ -469,6 +470,7 @@ int id loginUserBtt 0x7f0c0051
 int id mainUserId 0x7f0c0053
 int id media_actions 0x7f0c0065
 int id middle 0x7f0c0015
+int id miniUserPic 0x7f0c0072
 int id multiply 0x7f0c001e
 int id never 0x7f0c0019
 int id none 0x7f0c000e
@@ -478,6 +480,7 @@ int id password 0x7f0c0060
 int id passwordEdt 0x7f0c0050
 int id passwordSignupEdt 0x7f0c005a
 int id password_again_edit_text 0x7f0c005b
+int id profileUserId 0x7f0c0071
 int id progress_circular 0x7f0c0005
 int id progress_horizontal 0x7f0c0006
 int id radio 0x7f0c003a
@@ -520,7 +523,7 @@ int id up 0x7f0c0008
 int id useLogo 0x7f0c0012
 int id userName 0x7f0c005f
 int id userNameEdt 0x7f0c004f
-int id userProfilePic 0x7f0c0070
+int id userProfilePic 0x7f0c0073
 int id usernameSignupEdt 0x7f0c0057
 int id withText 0x7f0c001a
 int id wrap_content 0x7f0c001d
