@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:10:1-71:12
+ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:10:1-69:12
 	package
 		ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:11:5-32
 		INJECTED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml
@@ -22,7 +22,7 @@ ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseSta
 	android:name
 		ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:14:22-76
 application
-ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:16:5-69:19
+ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:16:5-67:19
 MERGED from [com.android.support:appcompat-v7:22.2.0] C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:22.2.0] C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\AndroidManifest.xml:22:5-20
 	android:label
@@ -82,7 +82,7 @@ ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseSta
 	android:name
 		ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:48:13-43
 activity#com.parse.starter.UserPage
-ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:52:9-59:20
+ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:52:9-55:20
 	android:label
 		ADDED from C:\Users\Zachary\Desktop\Parse-Starter-Project-1-2\WaffleApp\ParseStarterProject\src\main\AndroidManifest.xml:54:13-52
 	android:name

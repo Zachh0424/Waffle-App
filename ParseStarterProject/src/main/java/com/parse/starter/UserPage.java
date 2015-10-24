@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseUser;
 
 
-public class UserPage extends AppCompatActivity {
+public class UserPage extends ActionBarActivity {
     TextView un;
     ImageView userProfilePic;
 
@@ -40,13 +42,14 @@ public class UserPage extends AppCompatActivity {
         un = (TextView) findViewById(R.id.profileUserId);
         un.setText(getIntent().getSerializableExtra("userName").toString().trim());
 
-        userProfilePic.setClickable(true);
+      //  userProfilePic.setClickable(true);
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
+
 
 
         //set onclick listener for userProfile pic
         userProfilePic.setOnClickListener(new View.OnClickListener() {
-           @Override
+            @Override
             public void onClick(View v) {
                 System.out.print("clicked image");
                 Intent intent = new Intent();
@@ -57,7 +60,6 @@ public class UserPage extends AppCompatActivity {
             }
 
         });
-
 
 
 /*
@@ -81,7 +83,19 @@ public class UserPage extends AppCompatActivity {
 
         });
 
+
 */
+
+
+        un.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                setContentView(R.layout.activity_main);
+               // ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent intent = new Intent(UserPage.this, MainActivity.class);
+                //intent.putExtra("userName", currentUser.getUsername().toString().trim());
+            }
+        });
+
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
@@ -150,11 +164,19 @@ public class UserPage extends AppCompatActivity {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_main:
+                Intent intent = new Intent(UserPage.this, MainActivity.class);
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
     }
-
-
-
 
 
 

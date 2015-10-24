@@ -60,6 +60,8 @@ public class Post extends ParseObject{
     public String getDisplayName() {
         return getString("displayName");
     }
+
+
     public void setDisplayName(String displayName) {
         put("displayName", displayName);
     }

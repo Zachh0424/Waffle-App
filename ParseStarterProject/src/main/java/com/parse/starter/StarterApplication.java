@@ -22,6 +22,9 @@ public class StarterApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
+    // public WebView mWebView = (WebView) findViewById(R.id.webview);
+
+
     // Enable Local Datastore.
     //Parse.enableLocalDatastore(this);
 
@@ -35,4 +38,12 @@ public class StarterApplication extends Application {
     // defaultACL.setPublicReadAccess(true);
     ParseACL.setDefaultACL(defaultACL, true);
   }
-}
+
+
+
+
+  }
+
+
+
+

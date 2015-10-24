@@ -1,8 +1,8 @@
 package com.parse.starter;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +32,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -148,8 +149,10 @@ public class MainActivity extends AppCompatActivity {
     un.setOnClickListener(new View.OnClickListener(){
       public void onClick(View view){
         setContentView(R.layout.user_page);
+          ParseUser currentUser = ParseUser.getCurrentUser();
         //user_page();
         Intent intent = new Intent(MainActivity.this, UserPage.class);
+          intent.putExtra("userName", currentUser.getUsername().toString().trim());
       }
     });
 
@@ -178,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_main, menu);
-    return true;
+
+      return true;
   }
 
   @Override
@@ -193,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
       return true;
     }
 
+
     return super.onOptionsItemSelected(item);
   }
+
+
+
 }

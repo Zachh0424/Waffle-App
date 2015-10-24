@@ -1,10 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="com.parse.starter.WelcomeActivity">
+
+
+    <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/welcomeWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 
     <Button
         android:layout_width="155dp"
@@ -27,12 +33,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Social Picker"
-        android:id="@+id/textView"
+        android:id="@+id/welcomeTitle"
+        android:text="Waffle"
+        android:textStyle="bold"
+        android:textColorHint="@color/ripple_material_dark"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
@@ -42,10 +51,10 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:id="@+id/userName"
-        android:layout_below="@+id/textView"
+        android:hint="username"
+        android:layout_above="@+id/password"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
-        android:hint="username"/>
+        android:layout_marginBottom="35dp" />
 
     <EditText
         android:layout_width="280dp"
@@ -56,6 +65,7 @@
         android:hint="password"/>
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
@@ -67,4 +77,10 @@
         android:onClick="forgotPassword"
         android:clickable="true"/>
 
+
 </RelativeLayout>
+<!--
+android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" -->

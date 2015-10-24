@@ -53,7 +53,7 @@
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="316dp"
             android:id="@+id/listView"
             tools:listitem="@android:layout/simple_list_item_1" />
     </LinearLayout>

@@ -56,14 +56,8 @@
         <activity
             android:name="com.parse.starter.UserPage"
             android:label="@string/title_user_page" >
-
-            <!--
-               android:parentActivityName="com.parse.starter.MainActivity" >
-               <meta-data
-                   android:name="android.support.PARENT_ACTIVITY"
-                   android:value="com.parse.starter.MainActivity" />
-            -->
         </activity>
+
         <!--
                <activity
                android:name=".PhotoGallery"
