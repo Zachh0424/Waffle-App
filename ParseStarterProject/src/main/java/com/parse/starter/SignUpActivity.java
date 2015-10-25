@@ -19,6 +19,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText usernameEditText;
     EditText passwordEditText;
     EditText passwordAgainEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +38,23 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText.setText(password);
 
 
-                // Set up the submit button click handler
+        // Set up the submit button click handler
         Button mActionButton = (Button) findViewById(R.id.signupBtt);
         mActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 signup();
+            }
+        });
+        findViewById(R.id.signupBtt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this, UserPage.class));
+            }
+        });
+        findViewById(R.id.haveAccount).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this, WelcomeActivity.class));
             }
         });
     }
@@ -102,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     // Start an intent for the dispatch activity
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, UserPage.class);
                     intent.putExtra("userName", currentUser.getUsername().toString().trim());
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

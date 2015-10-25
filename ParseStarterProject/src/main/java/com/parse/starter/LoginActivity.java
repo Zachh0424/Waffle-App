@@ -21,6 +21,7 @@ import com.parse.SignUpCallback;
 public class LoginActivity extends AppCompatActivity {
     EditText usernameEditText;
     EditText passwordEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        findViewById(R.id.loginUserBtt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        });
     }
 
     private void login() {

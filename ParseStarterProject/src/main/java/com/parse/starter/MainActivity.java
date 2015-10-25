@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
   TextView txt;
 
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     try {
       out = new ObjectOutputStream(bos);
       out.writeObject(post);
-       yourBytes = bos.toByteArray();
+      yourBytes = bos.toByteArray();
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -93,12 +92,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-    ParseObject upload = new ParseObject("sampleObject");
+     ParseObject upload = new ParseObject("sampleObject");
 
-    upload.put("postTest", post);
-    upload.put("num", 4);
+     upload.put("postTest", post);
+     upload.put("num", 4);
 
-    upload.saveInBackground();
+     upload.saveInBackground();
      **/
 
     //ParseObject posted = new ParseObject("Post");
@@ -106,32 +105,31 @@ public class MainActivity extends AppCompatActivity {
     post.saveInBackground();
 
 
+    //query.whereEqualTo("num", j);
+    query.whereExists("createdAt");
 
-      //query.whereEqualTo("num", j);
-      query.whereExists("createdAt");
 
+    query.findInBackground(new FindCallback<ParseObject>() {
+      @Override
+      public void done(List<ParseObject> objects, ParseException e) {
+        if (e == null) {
+          for (int i = 0; i < objects.size(); i++) {
+            if (list.add(objects.get(i).toString())) {
+              Log.d("Adding to the object", "success");
+              //txt.setText(objects.get(i).toString());
+              //getPost(objects.get(i).get("post2").toString());
 
-      query.findInBackground(new FindCallback<ParseObject>() {
-        @Override
-        public void done(List<ParseObject> objects, ParseException e) {
-          if (e == null) {
-            for (int i = 0; i < objects.size(); i++) {
-              if (list.add(objects.get(i).toString())) {
-                Log.d("Adding to the object", "success");
-                //txt.setText(objects.get(i).toString());
-                //getPost(objects.get(i).get("post2").toString());
+              Log.d("Setting Text", "Text Hopefully Set");
+              Post post1 = (Post) objects.get(i);
+              txt.setText(post1.getVoteForimg1() + "");
 
-                  Log.d("Setting Text", "Text Hopefully Set");
-                  Post post1 = (Post) objects.get(i);
-                  txt.setText(post1.getVoteForimg1() + "");
-
-              } else {
-                Log.d("Adding to the object", "false");
-              }
+            } else {
+              Log.d("Adding to the object", "false");
             }
           }
         }
-      });
+      }
+    });
 
 
     adapter.clear();
@@ -145,25 +143,29 @@ public class MainActivity extends AppCompatActivity {
     lv.setAdapter(adapter);
 
 
-
-    un.setOnClickListener(new View.OnClickListener(){
-      public void onClick(View view){
-        setContentView(R.layout.user_page);
-          ParseUser currentUser = ParseUser.getCurrentUser();
-        //user_page();
+    un.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        // setContentView(R.layout.user_page);
+        ParseUser currentUser = ParseUser.getCurrentUser();
         Intent intent = new Intent(MainActivity.this, UserPage.class);
-          intent.putExtra("userName", currentUser.getUsername().toString().trim());
+        intent.putExtra("userName",un.getText());
+        startActivity(intent);
       }
     });
 
 
-
     // ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_main );
 
-              //lv.setAdapter(arrayAdapter);
+    //lv.setAdapter(arrayAdapter);
 
 
-              ParseAnalytics.trackAppOpenedInBackground(getIntent());
+    ParseAnalytics.trackAppOpenedInBackground(getIntent());
+    findViewById(R.id.mainUserId).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        startActivity(new Intent(MainActivity.this, UserPage.class));
+      }
+    });
   }
 
 

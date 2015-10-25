@@ -16,11 +16,14 @@ import android.widget.TextView;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 
 public class UserPage extends ActionBarActivity {
     TextView un;
-    ImageView userProfilePic;
+    ImageView userProfilePic, miniUserPic;
 
 
 
@@ -40,18 +43,18 @@ public class UserPage extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page);
         un = (TextView) findViewById(R.id.profileUserId);
-        un.setText(getIntent().getSerializableExtra("userName").toString().trim());
+        un.setText(getIntent().getStringExtra("userName"));
 
-      //  userProfilePic.setClickable(true);
+       // un.setText(getIntent().getSerializableExtra("userName").toString());
+
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
-
-
+        miniUserPic = (ImageView) findViewById(R.id.miniUserPic);
 
         //set onclick listener for userProfile pic
         userProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.print("clicked image");
+                //  System.out.print("clicked image");
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -62,42 +65,40 @@ public class UserPage extends ActionBarActivity {
         });
 
 
-/*
+        un.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
-        //set onclick listener for userProfile pic
-        userProfilePic.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View image) {
-              /*  Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(Intent.createChooser(intent, "Select Profile Picture"), 1);
-
-
-                // Create intent to Open Image applications like Gallery, Google Photos
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-// Start the Intent
-                startActivityForResult(galleryIntent, 1);
-
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent intent = new Intent(UserPage.this, MainActivity.class);
+                intent.putExtra("userName", currentUser.getUsername().trim());
+                startActivity(intent);
             }
-
         });
 
-
-*/
-
-
-        un.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                setContentView(R.layout.activity_main);
-               // ParseUser currentUser = ParseUser.getCurrentUser();
+        miniUserPic.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ParseUser currentUser = ParseUser.getCurrentUser();
                 Intent intent = new Intent(UserPage.this, MainActivity.class);
-                //intent.putExtra("userName", currentUser.getUsername().toString().trim());
+                intent.putExtra("userName", currentUser.getUsername().trim()); //send the userName to MAinActivity
+                // intent.putExtra("miniUserPic", );                //send the userProfilePic to MainActivity
+                startActivity(intent);
             }
         });
 
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        findViewById(R.id.profileUserId).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserPage.this, MainActivity.class));
+            }
+        });
+        findViewById(R.id.miniUserPic).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserPage.this, MainActivity.class));
+            }
+        });
 
     }
 
@@ -111,6 +112,7 @@ public class UserPage extends ActionBarActivity {
             if(result == RESULT_OK){
                 if(request == 1)
                     userProfilePic.setImageURI(data.getData());
+                    miniUserPic.setImageURI(data.getData());
             }
 
     }
@@ -167,7 +169,7 @@ public class UserPage extends ActionBarActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_main:
-                Intent intent = new Intent(UserPage.this, MainActivity.class);
+                startActivity(new Intent(UserPage.this, MainActivity.class));
                 return true;
             case R.id.action_settings:
                 return true;

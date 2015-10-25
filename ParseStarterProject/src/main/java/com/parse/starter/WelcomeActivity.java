@@ -12,12 +12,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,25 +31,20 @@ public class WelcomeActivity extends ActionBarActivity {
     EditText username;
     EditText password;
     WebView mWebView;
-    TextView welcomeTitle;
 
-
-
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+    //@TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
- //       mWebView = (WebView) findViewById(R.id.welcomeWebView);
+        mWebView = (WebView) findViewById(R.id.welcomeWebView);
         username = (EditText) findViewById(R.id.userName);
         password = (EditText) findViewById(R.id.password);
-        welcomeTitle = (TextView)findViewById(R.id.welcomeTitle);
+        //    welcomeTitle = (TextView)findViewById(R.id.welcomeTitle);
 
 
-
-        autoSignIn();
+        //autoSignIn();
 
 
 /*
@@ -66,7 +61,7 @@ public class WelcomeActivity extends ActionBarActivity {
       welcomeTitle.setText(Html.fromHtml(htmlCode));
 
 */
-/*
+
 
         // Force links and redirects to open
         // in the WebView instead of in a browser
@@ -77,20 +72,21 @@ public class WelcomeActivity extends ActionBarActivity {
 
 
         mWebView.loadUrl("file:///android_asset/WaffleWebApp.html");
-        // Enable Javascript
+       // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();
 
     if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
     }
-      //  webSettings.setJavaScriptEnabled(true);
+
+        webSettings.setJavaScriptEnabled(true);
      //   mWebView.setWebContentsDebuggingEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient());
 
 
 
-*/
+
 
         // Log in button click handler
         Button loginButton = (Button) findViewById(R.id.loginBtt);
@@ -114,10 +110,23 @@ public class WelcomeActivity extends ActionBarActivity {
                 finish();
             }
         });
+        findViewById(R.id.loginBtt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+            }
+        });
+        findViewById(R.id.signUpBttn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WelcomeActivity.this, SignUpActivity.class));
+            }
+        });
 
 
     }
-/*
+
+
     @Override
     public void onBackPressed() {
         if(mWebView.canGoBack()) {
@@ -129,7 +138,7 @@ public class WelcomeActivity extends ActionBarActivity {
 
 }
 
-*/
+
 
     public void autoSignIn(){
         ParseUser currentUser = ParseUser.getCurrentUser();
