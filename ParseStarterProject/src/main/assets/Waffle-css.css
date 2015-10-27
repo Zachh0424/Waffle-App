@@ -1,3 +1,4 @@
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio : 2){
 
 .page-container {
     text-container: center;
@@ -9,6 +10,30 @@
     box-sizing: border-box;
 
 }
+h1 {
+        position: relative;
+        font-size: 400dp;
+        margin-top: 100dp;
+        font-family: Script, Droid Serif Bold Italic;
+    }
+
+    h1 a {
+        text-decoration: none;
+        color: rgb(160,100,160);
+        position: absolute;
+
+        -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));
+    }
+
+    h1:after {
+        content : 'WAFFLE';
+        color: rgb(60,0,60);
+        text-shadow: 0 2px 0 black;
+    }
+    h1{
+      text-align: center;
+    }
+
 
 body {
 	background-color: rgb(190,120,190);

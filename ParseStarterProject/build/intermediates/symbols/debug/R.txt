@@ -426,7 +426,7 @@ int id action_menu_presenter 0x7f0c0004
 int id action_mode_bar 0x7f0c003e
 int id action_mode_bar_stub 0x7f0c003d
 int id action_mode_close_button 0x7f0c0026
-int id action_settings 0x7f0c0077
+int id action_settings 0x7f0c007b
 int id activity_chooser_view_content 0x7f0c0027
 int id alertTitle 0x7f0c0031
 int id always 0x7f0c0017
@@ -457,12 +457,14 @@ int id homeAsUp 0x7f0c000e
 int id icon 0x7f0c002c
 int id ifRoom 0x7f0c0019
 int id image 0x7f0c0029
+int id imageButton 0x7f0c0073
+int id imageButton2 0x7f0c0074
 int id imageView 0x7f0c0055
 int id info 0x7f0c0070
 int id line1 0x7f0c006a
 int id line3 0x7f0c006e
 int id linearLayout 0x7f0c0053
-int id linearLayout2 0x7f0c0073
+int id linearLayout2 0x7f0c0077
 int id listMode 0x7f0c000a
 int id listView 0x7f0c0056
 int id list_item 0x7f0c002b
@@ -471,7 +473,7 @@ int id loginUserBtt 0x7f0c0052
 int id mainUserId 0x7f0c0054
 int id media_actions 0x7f0c0068
 int id middle 0x7f0c0016
-int id miniUserPic 0x7f0c0075
+int id miniUserPic 0x7f0c0079
 int id multiply 0x7f0c001f
 int id never 0x7f0c001a
 int id none 0x7f0c000f
@@ -481,7 +483,7 @@ int id password 0x7f0c0063
 int id passwordEdt 0x7f0c0051
 int id passwordSignupEdt 0x7f0c005b
 int id password_again_edit_text 0x7f0c005c
-int id profileUserId 0x7f0c0074
+int id profileUserId 0x7f0c0078
 int id progress_circular 0x7f0c0006
 int id progress_horizontal 0x7f0c0007
 int id radio 0x7f0c003b
@@ -515,7 +517,9 @@ int id text 0x7f0c006f
 int id text2 0x7f0c006d
 int id textSpacerNoButtons 0x7f0c0034
 int id textView 0x7f0c0059
+int id textView2 0x7f0c0075
 int id textView3 0x7f0c0057
+int id textView4 0x7f0c0076
 int id time 0x7f0c006b
 int id title 0x7f0c002d
 int id title_template 0x7f0c0030
@@ -524,7 +528,7 @@ int id up 0x7f0c0009
 int id useLogo 0x7f0c0013
 int id userName 0x7f0c0062
 int id userNameEdt 0x7f0c0050
-int id userProfilePic 0x7f0c0076
+int id userProfilePic 0x7f0c007a
 int id usernameSignupEdt 0x7f0c0058
 int id welcomeTitle 0x7f0c0061
 int id welcomeWebView 0x7f0c005e
@@ -579,7 +583,8 @@ int layout select_dialog_item_material 0x7f040028
 int layout select_dialog_multichoice_material 0x7f040029
 int layout select_dialog_singlechoice_material 0x7f04002a
 int layout support_simple_spinner_dropdown_item 0x7f04002b
-int layout user_page 0x7f04002c
+int layout the_post_layouts 0x7f04002c
+int layout user_page 0x7f04002d
 int menu menu_auto_sign_in 0x7f0d0000
 int menu menu_login 0x7f0d0001
 int menu menu_main 0x7f0d0002

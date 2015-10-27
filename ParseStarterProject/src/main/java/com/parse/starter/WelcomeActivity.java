@@ -25,12 +25,18 @@ import android.webkit.WebViewClient;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
+
 
 public class WelcomeActivity extends ActionBarActivity {
     EditText username;
     EditText password;
     WebView mWebView;
+    String webUrl = "file:///android_asset/WaffleWebApp.html";
+    TextView welcomeTitle;
+
+
+    // The URL scheme should be non-hierarchical (no trailing slashes)
+   // private static final String APP_SCHEME = "waffleApp:";
 
     //@TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -41,26 +47,18 @@ public class WelcomeActivity extends ActionBarActivity {
         mWebView = (WebView) findViewById(R.id.welcomeWebView);
         username = (EditText) findViewById(R.id.userName);
         password = (EditText) findViewById(R.id.password);
-        //    welcomeTitle = (TextView)findViewById(R.id.welcomeTitle);
+        //welcomeTitle = (TextView)findViewById(R.id.welcomeTitle);
 
 
-        //autoSignIn();
+        autoSignIn();
 
 
-/*
-        String htmlCode = "<head>\n" +
-                "<link rel=\"stylesheet\" type=\"txt/css\" href=\"Waffle-css.css\">\n" +
-                "\t</head>\n" +
-                "<body>\n" +
-                "<center>\n" +
-                "<header>\n" +
-                "    <div id=\"WaffleTitle\">WAFFLE</div>\n" +
-                "</header>\n" +
-                "</center>\n";
 
-      welcomeTitle.setText(Html.fromHtml(htmlCode));
+       // String htmlCode = "<h1> <a href=\"#\"> WAFFLE </a> </h1>";
 
-*/
+     // welcomeTitle.setText(Html.fromHtml(htmlCode));
+
+
 
 
         // Force links and redirects to open
@@ -71,18 +69,21 @@ public class WelcomeActivity extends ActionBarActivity {
         mWebView.setWebViewClient(new MyAppWebViewClient());
 
 
-        mWebView.loadUrl("file:///android_asset/WaffleWebApp.html");
+
+        mWebView.loadUrl(webUrl);
        // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();
 
     if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setTextZoom(webSettings.getTextZoom() + 90); //possibly creates not debuggable error
     }
 
         webSettings.setJavaScriptEnabled(true);
      //   mWebView.setWebContentsDebuggingEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient());
+
 
 
 
@@ -138,7 +139,18 @@ public class WelcomeActivity extends ActionBarActivity {
 
 }
 
-
+/*
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) throws UnsupportedEncodingException {
+        url = webUrl;
+        if (url.startsWith(APP_SCHEME)) {
+            urlData = URLDecoder.decode(url.substring(APP_SCHEME.length()), "UTF-8");
+            respondToData(urlData);
+            return true;
+        }
+        return false;
+    }
+*/
 
     public void autoSignIn(){
         ParseUser currentUser = ParseUser.getCurrentUser();

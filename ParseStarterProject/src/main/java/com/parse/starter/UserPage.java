@@ -45,7 +45,7 @@ public class UserPage extends ActionBarActivity {
         un = (TextView) findViewById(R.id.profileUserId);
         un.setText(getIntent().getStringExtra("userName"));
 
-       // un.setText(getIntent().getSerializableExtra("userName").toString());
+ //       un.setText(getIntent().getSerializableExtra("userName").toString());
 
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
         miniUserPic = (ImageView) findViewById(R.id.miniUserPic);
@@ -67,7 +67,6 @@ public class UserPage extends ActionBarActivity {
 
         un.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 Intent intent = new Intent(UserPage.this, MainActivity.class);
                 intent.putExtra("userName", currentUser.getUsername().trim());
@@ -86,19 +85,9 @@ public class UserPage extends ActionBarActivity {
         });
 
 
+
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
-        findViewById(R.id.profileUserId).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserPage.this, MainActivity.class));
-            }
-        });
-        findViewById(R.id.miniUserPic).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserPage.this, MainActivity.class));
-            }
-        });
 
     }
 

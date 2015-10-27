@@ -22,8 +22,7 @@ public class Post extends ParseObject{
 
     }
 
-    public Post(Image img1, Image img2, int voteForimg1,
-                     int voteForimg2, String userName){
+    public Post(Image img1, Image img2, int voteForimg1, int voteForimg2, String userName){
         this.img1 = img1;
         this.img2 = img2;
         this.voteForimg1 = voteForimg1;

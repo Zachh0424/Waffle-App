@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     post.saveInBackground();
 
 
-    //query.whereEqualTo("num", j);
+   // query.whereEqualTo("userName", "doc");
     query.whereExists("createdAt");
 
 
@@ -131,6 +131,24 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    /*
+
+    ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Dan Stemkoski");
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            Log.d("score", "Retrieved " + scoreList.size() + " scores");
+        } else {
+            Log.d("score", "Error: " + e.getMessage());
+        }
+    }
+});
+
+
+     */
+
+
 
     adapter.clear();
     Log.d("Clearing Adapter", "Success");
@@ -142,17 +160,18 @@ public class MainActivity extends AppCompatActivity {
 
     lv.setAdapter(adapter);
 
-
+/*
     un.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
-        // setContentView(R.layout.user_page);
-        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        //ParseUser currentUser = ParseUser.getCurrentUser();
         Intent intent = new Intent(MainActivity.this, UserPage.class);
+       // intent.putExtra("userName", currentUser.getUsername().toString().trim());
         intent.putExtra("userName",un.getText());
         startActivity(intent);
       }
     });
-
+*/
 
     // ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_main );
 
@@ -161,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
 
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
     findViewById(R.id.mainUserId).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        startActivity(new Intent(MainActivity.this, UserPage.class));
+      }
+    });
+    findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         startActivity(new Intent(MainActivity.this, UserPage.class));

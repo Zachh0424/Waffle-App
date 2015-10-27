@@ -56,6 +56,7 @@
             android:layout_height="316dp"
             android:id="@+id/listView"
             tools:listitem="@android:layout/simple_list_item_1" />
+
     </LinearLayout>
 
     <TextView
