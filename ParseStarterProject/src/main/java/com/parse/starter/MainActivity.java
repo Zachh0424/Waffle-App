@@ -1,8 +1,10 @@
 package com.parse.starter;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -10,13 +12,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ListAdapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -37,15 +41,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
   TextView un;
-  ListView lv;
+  AbsListView lv;
+
   List<ParseObject> ob;
   ArrayAdapter<String> adapter;
   ProgressDialog mProgressDialog;
   ParseQuery<ParseObject> query;
-  ArrayList<String> list;
+  ArrayList<String> list;             //Changed from:  ArrayList<String> list;
   TextView txt;
+  ListAdapter listAdapter;
+  ProgressDialog pd;
 
 
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -55,10 +63,26 @@ public class MainActivity extends AppCompatActivity {
 
     list = new ArrayList<>();
     query = new ParseQuery<>("Post");
-    txt = (TextView) findViewById(R.id.textView3);
+
+//    Added devin's code
+    Post test = new Post();
+    Post test1 = new Post();
+    Post[] arrayOfPost = {test, test1};
+//
+
     //arrayAdapter = new ArrayAdapter<Device>(this, android.R.layout.simple_list_item_1, deviceList);
     adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-    lv = (ListView) findViewById(R.id.listView);
+   // lv = (ListView) findViewById(R.id.postListView);
+
+
+//    added devin's list adapter code
+    listAdapter = new CustomAdapter(this, arrayOfPost);
+    lv = (AbsListView) findViewById(R.id.postListView);
+    lv.setAdapter(listAdapter);
+    pd = new ProgressDialog(MainActivity.this);
+//
+
+
 
     ParseUser user = new ParseUser();
 
@@ -66,101 +90,58 @@ public class MainActivity extends AppCompatActivity {
     post.setOwner(user.getCurrentUser());
     post.setDisplayName(user.getCurrentUser().getUsername());
     post.setVote1(2);
-    byte[] yourBytes = new byte[0];
-    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    ObjectOutput out = null;
-    try {
-      out = new ObjectOutputStream(bos);
-      out.writeObject(post);
-      yourBytes = bos.toByteArray();
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (out != null) {
-          out.close();
-        }
-      } catch (IOException ex) {
-        // ignore close exception
-      }
-      try {
-        bos.close();
-      } catch (IOException ex) {
-        // ignore close exception
-      }
-    }
-
-    /**
-     ParseObject upload = new ParseObject("sampleObject");
-
-     upload.put("postTest", post);
-     upload.put("num", 4);
-
-     upload.saveInBackground();
-     **/
-
-    //ParseObject posted = new ParseObject("Post");
-
-    post.saveInBackground();
 
 
-   // query.whereEqualTo("userName", "doc");
-    query.whereExists("createdAt");
+    ParseACL acl = new ParseACL();
+    acl.setPublicReadAccess(true);
+    acl.setPublicWriteAccess(true);
+
+    post.setACL(acl);
+
+
+/*
+//  Devin's    starting here
+    query.whereEqualTo("objectId", "OSDWgkbkVy");
 
 
     query.findInBackground(new FindCallback<ParseObject>() {
       @Override
       public void done(List<ParseObject> objects, ParseException e) {
         if (e == null) {
+
+          Log.d("object size:", objects.size() + "");
           for (int i = 0; i < objects.size(); i++) {
-            if (list.add(objects.get(i).toString())) {
-              Log.d("Adding to the object", "success");
-              //txt.setText(objects.get(i).toString());
-              //getPost(objects.get(i).get("post2").toString());
-
-              Log.d("Setting Text", "Text Hopefully Set");
-              Post post1 = (Post) objects.get(i);
-              txt.setText(post1.getVoteForimg1() + "");
-
-            } else {
-              Log.d("Adding to the object", "false");
-            }
+            Log.d("Object:", objects.get(i).toString());
+            String s = objects.get(i).getString("voteImage1"); //removed (String) cast
+            txt.setText(s);
           }
+        } else {
+
         }
+
       }
+
+
     });
 
-    /*
-
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
-query.whereEqualTo("playerName", "Dan Stemkoski");
-query.findInBackground(new FindCallback<ParseObject>() {
-    public void done(List<ParseObject> scoreList, ParseException e) {
-        if (e == null) {
-            Log.d("score", "Retrieved " + scoreList.size() + " scores");
-        } else {
-            Log.d("score", "Error: " + e.getMessage());
-        }
-    }
-});
-
-
-     */
+//    ending here
 
 
 
+
+/*
     adapter.clear();
     Log.d("Clearing Adapter", "Success");
     for (int i = 0; i < list.size(); i++) {
       Log.d("Adding to adapter", "success");
       adapter.add(list.get(i).toString());
+
     }
     adapter.notifyDataSetChanged();
 
     lv.setAdapter(adapter);
 
-/*
+*/
     un.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
 
@@ -171,38 +152,66 @@ query.findInBackground(new FindCallback<ParseObject>() {
         startActivity(intent);
       }
     });
-*/
+
 
     // ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_main );
 
     //lv.setAdapter(arrayAdapter);
 
 
-    ParseAnalytics.trackAppOpenedInBackground(getIntent());
-    findViewById(R.id.mainUserId).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        startActivity(new Intent(MainActivity.this, UserPage.class));
-      }
-    });
+
     findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        startActivity(new Intent(MainActivity.this, UserPage.class));
-      }
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MainActivity.this, UserPage.class);
+            // intent.putExtra("userName", currentUser.getUsername().toString().trim());
+            intent.putExtra("userName",un.getText());
+            startActivity(intent);
+        }
     });
+
+
+
+    ParseAnalytics.trackAppOpenedInBackground(getIntent());
   }
 
 
-  public Post getPost(byte[] bytes){
-    Post post = new Post();
-
-    ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-    ObjectInput in = null;
 
 
-    return post;
+//  Devin's
+public void addToListArray(List<ParseObject> lst){
+  list.clear();
+  for (int i = 0; i < lst.size(); i++){
+
+    list.add(lst.get(i).toString());
+    Log.d("Adding to Array list", "Added " + i +" "+lst.get(i).getString("objectId"));
   }
+  txt.setText("Here");
+}
+
+
+  public void getPosts(){
+    adapter.clear();
+
+    Log.d("Clearing Adapter", "Success");
+    for (int i = 0; i < list.size(); i++) {
+      Log.d("Adding to adapter", "success");
+      adapter.add(list.get(i).toString());
+
+    }
+    adapter.notifyDataSetChanged();
+
+    //surround setAdapter call in version check
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      lv.setAdapter(adapter);
+    }
+
+    //pd.dismiss(); <- leave commented
+ }
+//end of devin's
+
+
+
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

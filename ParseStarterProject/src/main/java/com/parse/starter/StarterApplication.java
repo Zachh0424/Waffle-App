@@ -9,9 +9,11 @@
 package com.parse.starter;
 
 import android.app.Application;
+import android.media.Image;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -29,6 +31,7 @@ public class StarterApplication extends Application {
     //Parse.enableLocalDatastore(this);
 
     ParseObject.registerSubclass(Post.class);
+
     // Add your initialization code here
     Parse.initialize(this, "Svhc6XbmgzKhhvpnaxF8B7YuPYoyAebYpyJF5Hwu", "ijC4XaCIsehsuZ35npHNuKhm4TBlh9MVZmxMQpU8");
 
@@ -37,6 +40,11 @@ public class StarterApplication extends Application {
     // Optionally enable public read access.
     // defaultACL.setPublicReadAccess(true);
     ParseACL.setDefaultACL(defaultACL, true);
+
+
+
+
+
   }
 
 

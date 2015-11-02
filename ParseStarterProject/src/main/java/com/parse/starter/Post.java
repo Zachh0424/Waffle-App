@@ -3,35 +3,41 @@ package com.parse.starter;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 
+import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-/**
- * Created by devinyancey on 10/6/15.
- */
+import java.net.URI;
 
 @ParseClassName("Post")
 
 public class Post extends ParseObject{
-    Image img1, img2;
+    Image userImage, img1, img2; //,userImage;
+   // URI userImages;
     int voteForimg1, voteForimg2;
     String userName;
+    String userComment;
 
     public Post(){
 
     }
 
-    public Post(Image img1, Image img2, int voteForimg1, int voteForimg2, String userName){
+    public Post(Image user, Image img1, Image img2, int voteForimg1,
+                int voteForimg2, String userName, String userComment){
+        this.userImage = user;
         this.img1 = img1;
         this.img2 = img2;
         this.voteForimg1 = voteForimg1;
         this.voteForimg2 = voteForimg2;
         this.userName = userName;
+        this.userComment = userComment;
+
     }
 
-    public void setImages(Image image, Image image2){
-        img1 = image;
+    public void setImages(Image userpic, Image image1, Image image2){
+        userImage = userpic;
+        img1 = image1;
         img2 = image2;
     }
 
@@ -59,8 +65,6 @@ public class Post extends ParseObject{
     public String getDisplayName() {
         return getString("displayName");
     }
-
-
     public void setDisplayName(String displayName) {
         put("displayName", displayName);
     }
@@ -84,6 +88,8 @@ public class Post extends ParseObject{
     public int getVote(){
         return 1;
     }
+
+
 
 
 }

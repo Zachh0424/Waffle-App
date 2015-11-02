@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -23,7 +25,7 @@ import com.parse.ParseQuery;
 
 public class UserPage extends ActionBarActivity {
     TextView un;
-    ImageView userProfilePic, miniUserPic;
+    ImageView userProfilePic, miniUserPic, userImages;
 
 
 
@@ -96,12 +98,21 @@ public class UserPage extends ActionBarActivity {
         the user DOES choose one and
         sets the chosen image
      */
+
+    ParseUser user = new ParseUser();
+
+
         public void onActivityResult(int request,int result, Intent data){
         //check if change has been made
             if(result == RESULT_OK){
                 if(request == 1)
                     userProfilePic.setImageURI(data.getData());
                     miniUserPic.setImageURI(data.getData());
+
+                   // userImages.setImageURI(data.getData());
+                   // Post userImage = new Post();
+                   // userImage.setOwner(user.getCurrentUser());
+                   // userImage.setImages(userImages);
             }
 
     }
