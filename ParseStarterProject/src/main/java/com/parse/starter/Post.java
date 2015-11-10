@@ -1,32 +1,41 @@
 package com.parse.starter;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.widget.ImageView;
 
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.net.URI;
+/**
+ * Created by devinyancey on 10/6/15.
+ */
 
 @ParseClassName("Post")
 
 public class Post extends ParseObject{
-    Image userImage, img1, img2; //,userImage;
-   // URI userImages;
+    Bitmap userImage, img2;
+    byte[] img1, userImg;
     int voteForimg1, voteForimg2;
     String userName;
     String userComment;
+
+
+
+
 
     public Post(){
 
     }
 
-    public Post(Image user, Image img1, Image img2, int voteForimg1,
+    public Post(Bitmap user, Bitmap img1, Bitmap img2, int voteForimg1,
                 int voteForimg2, String userName, String userComment){
         this.userImage = user;
-        this.img1 = img1;
+
         this.img2 = img2;
         this.voteForimg1 = voteForimg1;
         this.voteForimg2 = voteForimg2;
@@ -35,21 +44,28 @@ public class Post extends ParseObject{
 
     }
 
-    public void setImages(Image userpic, Image image1, Image image2){
-        userImage = userpic;
-        img1 = image1;
+
+
+    public void setImages(Bitmap image, Bitmap image2){
+
         img2 = image2;
     }
+
+    public void setImg1(byte[] image){
+        put("imageTest", image);
+        img1 = image;
+    }
+
 
     public void updateVoteForimg1(){
         voteForimg1 += 1;
     }
 
-    public Image getImg1() {
+    public byte[] getImg1() {
         return img1;
     }
 
-    public Image getImg2() {
+    public Bitmap getImg2() {
         return img2;
     }
 
@@ -59,6 +75,18 @@ public class Post extends ParseObject{
 
     public String getUserName() {
         return userName;
+    }
+
+    public byte[] getUserPicture(){
+        return userImg;
+    }
+
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+
+    public void setUserPicture(byte[] userPic){
+            userPic = userImg;
     }
 
 

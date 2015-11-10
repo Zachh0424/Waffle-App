@@ -111,23 +111,9 @@ public class WelcomeActivity extends ActionBarActivity {
                 finish();
             }
         });
-        findViewById(R.id.loginBtt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-            }
-        });
-        findViewById(R.id.signUpBttn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, SignUpActivity.class));
-            }
-        });
 
 
-    }
-
-
+/*
     @Override
     public void onBackPressed() {
         if(mWebView.canGoBack()) {
@@ -135,7 +121,7 @@ public class WelcomeActivity extends ActionBarActivity {
         } else {
             super.onBackPressed();
         }
-
+*/
 
 }
 

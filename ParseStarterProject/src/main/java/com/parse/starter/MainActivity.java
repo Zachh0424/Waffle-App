@@ -2,241 +2,283 @@ package com.parse.starter;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ListAdapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 
+public class MainActivity extends ActionBarActivity {
+    TextView un;
+    ListView lv;
 
-public class MainActivity extends AppCompatActivity {
-  TextView un;
-  AbsListView lv;
+    List<ParseObject> ob;
+    ArrayAdapter<String> adapter;
+    ListAdapter listAdapter;
+    ProgressDialog mProgressDialog;
+    ParseQuery<ParseObject> query;
+    ArrayList<Post> list;
+    TextView txt;
+    ProgressDialog pd;
+    ParseFile file;
 
-  List<ParseObject> ob;
-  ArrayAdapter<String> adapter;
-  ProgressDialog mProgressDialog;
-  ParseQuery<ParseObject> query;
-  ArrayList<String> list;             //Changed from:  ArrayList<String> list;
-  TextView txt;
-  ListAdapter listAdapter;
-  ProgressDialog pd;
+    ImageView userPic;
 
+    String[] objectIds;
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    un = (TextView) findViewById(R.id.mainUserId);
-    un.setText(getIntent().getSerializableExtra("userName").toString().trim());
-
-    list = new ArrayList<>();
-    query = new ParseQuery<>("Post");
-
-//    Added devin's code
-    Post test = new Post();
-    Post test1 = new Post();
-    Post[] arrayOfPost = {test, test1};
-//
-
-    //arrayAdapter = new ArrayAdapter<Device>(this, android.R.layout.simple_list_item_1, deviceList);
-    adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-   // lv = (ListView) findViewById(R.id.postListView);
-
-
-//    added devin's list adapter code
-    listAdapter = new CustomAdapter(this, arrayOfPost);
-    lv = (AbsListView) findViewById(R.id.postListView);
-    lv.setAdapter(listAdapter);
-    pd = new ProgressDialog(MainActivity.this);
-//
+    Post[] objectPosts;
 
 
 
-    ParseUser user = new ParseUser();
+    byte[] image, userimg;
 
-    Post post = new Post();
-    post.setOwner(user.getCurrentUser());
-    post.setDisplayName(user.getCurrentUser().getUsername());
-    post.setVote1(2);
+    public Post test;
+    int arraySize;
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        un = (TextView) findViewById(R.id.mainUserId);
+        un.setText(getIntent().getSerializableExtra("userName").toString().trim());
+        userPic = (ImageView) findViewById(R.id.imageView);
 
-
-    ParseACL acl = new ParseACL();
-    acl.setPublicReadAccess(true);
-    acl.setPublicWriteAccess(true);
-
-    post.setACL(acl);
-
-
-/*
-//  Devin's    starting here
-    query.whereEqualTo("objectId", "OSDWgkbkVy");
+        objectIds = null;
+        objectPosts = null;
 
 
-    query.findInBackground(new FindCallback<ParseObject>() {
-      @Override
-      public void done(List<ParseObject> objects, ParseException e) {
-        if (e == null) {
+        query = new ParseQuery<>("Post");
+        list = new ArrayList<>();
 
-          Log.d("object size:", objects.size() + "");
-          for (int i = 0; i < objects.size(); i++) {
-            Log.d("Object:", objects.get(i).toString());
-            String s = objects.get(i).getString("voteImage1"); //removed (String) cast
-            txt.setText(s);
-          }
-        } else {
+        //query = ParseQuery.getQuery("Post");
+        test = new Post();
+        Post test1 = new Post();
 
-        }
+       // txt = (TextView) findViewById(R.id.textView3);
 
-      }
+        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
+        lv = (ListView) findViewById(R.id.postListView);
 
-    });
-
-//    ending here
+        pd = new ProgressDialog(MainActivity.this);
 
 
 
 
-/*
-    adapter.clear();
-    Log.d("Clearing Adapter", "Success");
-    for (int i = 0; i < list.size(); i++) {
-      Log.d("Adding to adapter", "success");
-      adapter.add(list.get(i).toString());
+        un.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
-    }
-    adapter.notifyDataSetChanged();
-
-    lv.setAdapter(adapter);
-
-*/
-    un.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-
-        //ParseUser currentUser = ParseUser.getCurrentUser();
-        Intent intent = new Intent(MainActivity.this, UserPage.class);
-       // intent.putExtra("userName", currentUser.getUsername().toString().trim());
-        intent.putExtra("userName",un.getText());
-        startActivity(intent);
-      }
-    });
-
-
-    // ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_main );
-
-    //lv.setAdapter(arrayAdapter);
-
-
-
-    findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, UserPage.class);
-            // intent.putExtra("userName", currentUser.getUsername().toString().trim());
-            intent.putExtra("userName",un.getText());
-            startActivity(intent);
-        }
-    });
-
-
-
-    ParseAnalytics.trackAppOpenedInBackground(getIntent());
-  }
+                //ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent intent = new Intent(MainActivity.this, UserPage.class);
+                // intent.putExtra("userName", currentUser.getUsername().toString().trim());
+                intent.putExtra("userName",un.getText());
+                startActivity(intent);
+            }
+        });
 
 
 
 
-//  Devin's
-public void addToListArray(List<ParseObject> lst){
-  list.clear();
-  for (int i = 0; i < lst.size(); i++){
+        findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserPage.class);
+                // intent.putExtra("userName", currentUser.getUsername().toString().trim());
+                intent.putExtra("userName",un.getText());
+                startActivity(intent);
+            }
+        });
 
-    list.add(lst.get(i).toString());
-    Log.d("Adding to Array list", "Added " + i +" "+lst.get(i).getString("objectId"));
-  }
-  txt.setText("Here");
+
+
+
+
+/**
+ ///////////////////////////////////////////
+ query.whereEqualTo("displayName", "test");
+ query.findInBackground(new FindCallback<ParseObject>() {
+@Override
+public void done(final List<ParseObject> objects, ParseException e) {
+Log.d("antone", "test");
+Log.d("Testing", "123");
+objectIds = new String[objects.size()];
+String[] ids = new String[objects.size()];
+if (e == null) {
+Log.d("object size:", objects.size() + "");
+for (int i = 0; i < objects.size(); i++) {
+Log.d("Object:", objects.get(i).toString());
+objectIds[i] = objects.get(i).getObjectId().toString();
+ids[i] = objects.get(i).getObjectId().toString();
+ParseObject parseObject = objects.get(i);
+test.setUserName(objects.get(i) + "");
+txt.setText(test.getUserName());
 }
+sendToAdpater(ids);
+lv.setAdapter(listAdapter);
+} else {
+}
+}
+});
+ //listAdapter = new CustomAdapter(this, test);
+ ////////////////////////////////////////////
+ **/
+
+        //query.whereEqualTo("displayName", "test");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.d("number of objects", objects.size() + "");
+                    Post[] pst = new Post[objects.size()];
+                    for (int i = 0; i < objects.size(); i++) {
+                        Log.d("ParseObject:", objects.get(i).toString());
+                        pst[i] = (Post) objects.get(i);
+                    }
+                    sendToAdpater(pst);
+                    lv.setAdapter(listAdapter);
+                }
+            }
+        });
 
 
-  public void getPosts(){
-    adapter.clear();
+        ParseUser user = new ParseUser();
 
-    Log.d("Clearing Adapter", "Success");
-    for (int i = 0; i < list.size(); i++) {
-      Log.d("Adding to adapter", "success");
-      adapter.add(list.get(i).toString());
 
+        makePost();
+        Post post = new Post();
+        post.setOwner(user.getCurrentUser());
+        post.setUserName(user.getCurrentUser().toString());
+        post.setDisplayName(user.getCurrentUser().getUsername());
+     /**   userimg = post.getUserPicture();
+        //converting Byte[] to imageView
+        Bitmap bmp = BitmapFactory.decodeByteArray(userimg, 0, userimg.length);
+       //userPic.setImageBitmap(bmp);
+
+      //  userPic = post.getUserPicture();
+        post.setUserPicture(userimg);
+      **/
+        post.setVote1(2);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable
+                .user_icon);
+        post.setImg1(image);
+//      post.put("Image1", file);
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+
+        post.setACL(acl);
+        post.saveInBackground();
+
+
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
-    adapter.notifyDataSetChanged();
 
-    //surround setAdapter call in version check
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-      lv.setAdapter(adapter);
+    public void sendToAdpater(Post[] array){
+
+        pd = ProgressDialog.show(this, "dialog title",
+                "dialog message", true);
+        for (int i = 0; i < array.length; i++){
+            Log.d("Object:", array[i].toString());
+        }
+        listAdapter = new CustomAdapter(this, array);
+        pd.dismiss();
     }
 
-    //pd.dismiss(); <- leave commented
- }
-//end of devin's
+    public void addToListArray(List<ParseObject> lst){
+        list.clear();
+        for (int i = 0; i < lst.size(); i++){
 
+            list.add((Post) lst.get(i));
+            Log.d("Adding to Array list", "Added " + i +" "+((Post) lst.get(i)).getUserName());
+        }
+        txt.setText("Here");
+    }
 
+    public void makePost(){
+        //THis is to locate the image but it will be replaced by going into the
+        //gallery/taking a picture
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable
+                .user_icon);
 
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
-
-      return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
+        //Convert it to byte
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        //compress the image
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] image2 = stream.toByteArray();
+        image = image2;
+        //create the parse file
+        //file = new ParseFile("postImage.png", image);
+        //file.saveInBackground();
     }
 
 
-    return super.onOptionsItemSelected(item);
-  }
+    public void getPosts(){
+        adapter.clear();
 
+        Log.d("Clearing Adapter", "Success");
+        for (int i = 0; i < list.size(); i++) {
+            Log.d("Adding to adapter", "success");
+            adapter.add(list.get(i).toString());
 
+        }
+        adapter.notifyDataSetChanged();
 
+        lv.setAdapter(adapter);
+
+        //pd.dismiss();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
