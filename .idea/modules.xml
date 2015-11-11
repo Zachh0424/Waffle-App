@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ParseStarterProject/ParseStarterProject.iml" filepath="$PROJECT_DIR$/ParseStarterProject/ParseStarterProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WaffleApp.iml" filepath="$PROJECT_DIR$/WaffleApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Waffle-App.iml" filepath="$PROJECT_DIR$/Waffle-App.iml" />
     </modules>
   </component>
 </project>

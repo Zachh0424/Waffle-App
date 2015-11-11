@@ -88,4 +88,4 @@ android:paddingLeft="@dimen/activity_horizontal_margin"
         android:textColorHint="@color/ripple_material_dark"
 
     android:text="WAFFLE"
-    --><!-- From: file:/C:/Users/Zachary/Desktop/Parse-Starter-Project-1-2/WaffleApp/ParseStarterProject/src/main/res/layout/activity_welcome.xml -->
+    --><!-- From: file:/C:/Users/Zachary/Desktop/Waffle-App/ParseStarterProject/src/main/res/layout/activity_welcome.xml -->
