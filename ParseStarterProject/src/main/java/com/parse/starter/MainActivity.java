@@ -83,10 +83,10 @@ public class MainActivity extends ActionBarActivity {
         list = new ArrayList<>();
 
         //query = ParseQuery.getQuery("Post");
-        test = new Post();
+  /**      test = new Post();
         Post test1 = new Post();
 
-       // txt = (TextView) findViewById(R.id.textView3);
+   **/    // txt = (TextView) findViewById(R.id.textView3);
 
         //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
@@ -174,22 +174,21 @@ lv.setAdapter(listAdapter);
 
 
         ParseUser user = new ParseUser();
-
-
+/**
         makePost();
         Post post = new Post();
         post.setOwner(user.getCurrentUser());
         post.setUserName(user.getCurrentUser().toString());
         post.setDisplayName(user.getCurrentUser().getUsername());
-     /**   userimg = post.getUserPicture();
+        userimg = post.getUserPicture();
         //converting Byte[] to imageView
         Bitmap bmp = BitmapFactory.decodeByteArray(userimg, 0, userimg.length);
-       //userPic.setImageBitmap(bmp);
+        userPic.setImageBitmap(bmp);
 
       //  userPic = post.getUserPicture();
         post.setUserPicture(userimg);
-      **/
-        post.setVote1(2);
+
+/**        post.setVote1(2);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable
                 .user_icon);
         post.setImg1(image);
@@ -200,7 +199,7 @@ lv.setAdapter(listAdapter);
 
         post.setACL(acl);
         post.saveInBackground();
-
+**/
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
