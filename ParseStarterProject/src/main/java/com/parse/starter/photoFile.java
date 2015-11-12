@@ -27,102 +27,109 @@ import com.parse.ParseUser;
 @ParseClassName("photoFile")
 public class photoFile extends ParseObject {
 
-        Bitmap userImage, img2;
-        byte[] img1, userImg;
-        int voteForimg1, voteForimg2;
-        String userName;
-        String userComment;
+    Bitmap img1, img2;
+    //byte[] img1;
+    int voteForimg1, voteForimg2;
+    String userName;
+    String userComment;
+    ParseFile photo;
+
+/*
+    THIS IS A NEW CHANGE TO TEST IF PUSHED CORRECTLY
+ */
 
 
-        public photoFile(){
+ParseUser currUser = ParseUser.getCurrentUser();
 
-        }
-
-    /*
-        public photoFile( ParseFile file){  //byte[] userPic, Bitmap img1, Bitmap img2,
-            //this.userImage = userPic;
-            ParseFile photo = file;
-            //this.img2 = img2;
-
-        }
-
-*/
-
-        public void setImages(Bitmap image, Bitmap image2){
-
-            img2 = image2;
-        }
-
-    /**
-        public void setImg1(byte[] image){
-            put("imageTest", image);
-            img1 = image;
-        }
-
-
-        public void updateVoteForimg1(){
-            voteForimg1 += 1;
-        }
-**/
-        public byte[] getImg1() {
-            return img1;
-        }
-
-        public Bitmap getImg2() {
-            return img2;
-        }
-/**
-        public int getVoteForimg1() {
-            return voteForimg1;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-**/
-        public byte[] getUserPicture(){
-            return userImg;
-        }
-/**
-        public void setUserName(String userName){
-            this.userName = userName;
-        }
-**/
-        public void setUserPicture(ParseFile photo){
-            put("profilePicture", photo);
-        }
-
-/**
-        public String getDisplayName() {
-            return getString("displayName");
-        }
-        public void setDisplayName(String displayName) {
-            put("displayName", displayName);
-        }
-**/
-        public ParseUser getOwner() {
-            return getParseUser("owner");
-        }
-        public void setOwner(ParseUser user) {
-            put("owner", user);
-        }
-
-/**
-        public void setVote1(int voteForimg1) {
-            put("voteImage1", voteForimg1);
-        }
-
-        public void putImage(Image img){
-            put("Image", img);
-        }
-
-        public int getVote(){
-            return 1;
-        }
-
-**/
-
+    public photoFile(){
 
     }
+
+
+    public photoFile( ParseFile file){  //byte[] userPic, Bitmap img1, Bitmap img2,
+
+        photo = file;
+
+    }
+
+
+
+    public void setImages(Bitmap image, Bitmap image2){
+        img1 = image;
+        img2 = image2;
+    }
+
+    /**
+     public void setImg1(byte[] image){
+     put("imageTest", image);
+     img1 = image;
+     }
+
+
+     public void updateVoteForimg1(){
+     voteForimg1 += 1;
+     }
+     **/
+    public Bitmap getImg1() {
+        return img1;
+    }
+
+    public Bitmap getImg2() {
+        return img2;
+    }
+    /**
+     public int getVoteForimg1() {
+     return voteForimg1;
+     }
+
+     public String getUserName() {
+     return userName;
+     }
+     **/
+    public ParseFile getUserPicture(){
+        return photo;
+    }
+    /**
+     public void setUserName(String userName){
+     this.userName = userName;
+     }
+     **/
+    public void setUserPicture(ParseFile photo){
+        put("profilePicture", photo);
+        currUser.put("profilePicture", photo);
+    }
+
+    /**
+     public String getDisplayName() {
+     return getString("displayName");
+     }
+     public void setDisplayName(String displayName) {
+     put("displayName", displayName);
+     }
+     **/
+    public ParseUser getOwner() {
+        return getParseUser("owner");
+    }
+    public void setOwner(ParseUser user) {
+        put("owner", user);
+    }
+
+/**
+ public void setVote1(int voteForimg1) {
+ put("voteImage1", voteForimg1);
+ }
+
+ public void putImage(Image img){
+ put("Image", img);
+ }
+
+ public int getVote(){
+ return 1;
+ }
+
+ **/
+
+
+}
 
 

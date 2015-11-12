@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
 import com.parse.ParseFile;
@@ -38,12 +39,15 @@ public class UserPage extends ActionBarActivity {
     TextView un;
     ImageView userProfilePic, miniUserPic, userImages;
     Uri img;
-  //  ParseFile file;
-  //  photoFile photoFile = new photoFile(file);
-  //ParseObject photoFile = new ParseObject("photoFile");
+    ParseQuery<ParseObject> picQuery;
+    //  ParseFile file;
+    //  photoFile photoFile = new photoFile(file);
+    //ParseObject photoFile = new ParseObject("photoFile");
     //byte[] userPic, userimg;
 
     private GridView gridView;
+
+    photoFile photo;
 
 
 
@@ -57,13 +61,20 @@ public class UserPage extends ActionBarActivity {
         un = (TextView) findViewById(R.id.profileUserId);
         un.setText(getIntent().getStringExtra("userName"));
 
- //       un.setText(getIntent().getSerializableExtra("userName").toString());
+        //       un.setText(getIntent().getSerializableExtra("userName").toString());
 
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
         miniUserPic = (ImageView) findViewById(R.id.miniUserPic);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
 
+
+
+        //  picQuery = new ParseQuery<>("User");
+
+        // ParseFile currentProfilePic = ParseFile(currentUser.getUsername().);
+        //userProfilePic.setImageDrawable(currentUser.getUserPicture());
 
 
 
@@ -104,18 +115,18 @@ public class UserPage extends ActionBarActivity {
 
 
 /**
-        ParseFile photoFile = new ParseFile(userPic);
-        makePhoto();
+ ParseFile photoFile = new ParseFile(userPic);
+ makePhoto();
 
-       // userPic.setOwner(user.getCurrentUser());
+ // userPic.setOwner(user.getCurrentUser());
 
 
-        photoFile.setUserPicture(userPic);
-//    post.put("Image1", file);
-        ParseACL acl = new ParseACL();
-      //  photoFile.setACL(acl);
-        photoFile.saveInBackground();
-**/
+ photoFile.setUserPicture(userPic);
+ //    post.put("Image1", file);
+ ParseACL acl = new ParseACL();
+ //  photoFile.setACL(acl);
+ photoFile.saveInBackground();
+ **/
 
         /*
         photoFile photoFile;
@@ -132,43 +143,30 @@ public class UserPage extends ActionBarActivity {
      */
 
 
-        public void onActivityResult(int request,int result, Intent data){
+    public void onActivityResult(int request,int result, Intent data){
         //check if change has been made
-            if(result == RESULT_OK) {
-                if (request == 1)
-                    userProfilePic.setImageURI(data.getData());
+        if(result == RESULT_OK) {
+            if (request == 1)
+                userProfilePic.setImageURI(data.getData());
+            miniUserPic.setImageURI(data.getData());
 
-                //userImages.setImageURI(data.getData()); //not an image view so crashing
+            makePhoto(userProfilePic);
+        }
 
-                //set URI img variable to userimage
-               // img = data.getData();
-              //Uri userImages = img;
+    }
 
-              //  userProfilePic.setImage
-
-
-                miniUserPic.setImageURI(data.getData());
-
-               makePhoto(userProfilePic);
-            }
-
-            }
-
+    // This is the section where the images is converted, saved, and uploaded.
     public void makePhoto(ImageView userProfilePic){
 
-        //userProfilePic.getDrawable();
 
-        photoFile photo = new photoFile();
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-
-        //Resources res = getResources();
-       //String picStringId = String.valueOf(userProfilePic);
-       // int picIntId = Integer.valueOf(picStringId);
+        photo = new photoFile();                            //create PhotoFile object
+        ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
+        photo.setOwner(currentUser.getCurrentUser());       //set this photo's owner as current user
 
 
-        // This is the section where the images is converted, saved, and uploaded. I have not been able Locate the image from the ImageView, where the user uploads the picture to imageview from either their gallery and later on from facebook */
-     //   Bitmap bitmap = BitmapFactory.decodeResource(getResources(), picIntId);
+
+
+        //Bitmap the Imageview userProfilePic
         Bitmap bitmap = ((BitmapDrawable)userProfilePic.getDrawable()).getBitmap();
 
 
@@ -179,83 +177,24 @@ public class UserPage extends ActionBarActivity {
         byte[] userPic = stream.toByteArray();
 
 
-        // Create the ParseFile
-        ParseFile file = new ParseFile("profilePicture.png", userPic);
-         //file = new ParseFile("profilePicture.png", userPic);
-        // Upload the image into Parse Cloud
+        // Create the ParseFile passing the byte[] and the name of this specific image file
+        ParseFile file = new ParseFile("UserPicture3", userPic);
 
 
-        // Create a column named "Profile Picture" and set the string
-        //currentUser.put("ImageName", "Profile Picture");
+        //photoFile.setUserPicture(file);
+       // photo.put("profilePicture",file);
+        //currentUser.put("profilePicture", file);
 
-        // Create a column named "ProfilePicture" and insert the image
-
-
-        currentUser.put("profilePicture", file);
 
         photo.setUserPicture(file);
 
-       file.saveInBackground();
+        //may need to check here for duplicates before saving again
+        photo.saveInBackground();
+        file.saveInBackground();
         currentUser.saveInBackground();
 
 
     }
-
-
-        /**
-         // userProfilePic.setImageURI(img);
-
-         //  Drawable drawable = res.getDrawable(resourceId);
-         //  userProfilePic.setImageDrawable(res.getDrawable(resourceId));
-
-         //Convert it to byte
-         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), picIntId);
-
-         //Convert it to byte
-         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-         //compress the image
-         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-         //get byte array here
-         byte[] userimg = stream.toByteArray();
-         userPic = userimg;
-
-         **/
-      //
-
-        //converting back to imageview
-        // Bitmap bmp = BitmapFactory.decodeByteArray(userPic, 0, userPic.length);
-        //userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
-
-        // userProfilePic.setImageBitmap(bmp);
-
-
-/**
-
-    public void done(ParseException e) {
-        setProgressBarIndeterminateVisibility(false);
-
-        if (e == null) {
-            // Success!
-            Intent intent = new Intent(UserPage.this, UserPage.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-        else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(UserPage.this);
-            builder.setMessage(e.getMessage())
-                    .setTitle(R.string.error_end)
-                    .setPositiveButton(android.R.string.ok, null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-    }
-
-    // ParseUser user = new ParseUser();
-
-**/
 
 /*
         gridView = (GridView) findViewById(R.id.gridView);
