@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.Parse;
 import com.parse.ParseACL;
@@ -52,17 +54,20 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<Post> list;
     TextView txt;
     ProgressDialog pd;
-    ParseFile file;
+    photoFile proPic;
 
-    ImageView userPic;
+    ImageView userPic, postUserPic;
 
     String[] objectIds;
 
     Post[] objectPosts;
 
 
+    ParseUser currUser = ParseUser.getCurrentUser();
 
     byte[] image, userimg;
+
+
 
     public Post test;
     int arraySize;
@@ -74,6 +79,48 @@ public class MainActivity extends ActionBarActivity {
         un = (TextView) findViewById(R.id.mainUserId);
         un.setText(getIntent().getSerializableExtra("userName").toString().trim());
         userPic = (ImageView) findViewById(R.id.imageView);
+       // postUserPic = (ImageView) findViewById(R.id.userPicture);
+      //  makeUserPic(proPic);
+
+        /**
+        userimg = post.getUserPicture();
+        //converting Byte[] to imageView
+        Bitmap bmp = BitmapFactory.decodeByteArray(userimg, 0, userimg.length);
+        userPic.setImageBitmap(bmp);
+        **/
+/**
+        query.findInBackground(new FindCallback<ParseObject>() {
+           @Override
+           public void done(final List<ParseObject> objects, ParseException e) {
+            //Log.d("UserPicture2", "profilePicture");
+            // Log.d("Testing", "123");
+            objectIds = new String[objects.size()];
+            String[] ids = new String[objects.size()];
+            if (e == null) {
+               // Log.d("object size:", objects.size() + "");
+               for (int i = 0; i < objects.size(); i++) {
+                 Log.d("Object:", objects.get(i).toString());
+                 objectIds[i] = objects.get(i).getObjectId().toString();
+                 ids[i] = objects.get(i).getObjectId().toString();
+                 ParseObject parseObject = objects.get(i);
+                 test.setUserName(objects.get(i) + "");
+                 if(test.equals(currUser.getUsername())){
+
+                 }
+                  // txt.setText(test.getUserName());
+                  }
+                  }
+                  }
+
+                  Bitmap bitmap = ((BitmapDrawable) userPic.getDrawable()).getBitmap();
+                  // Convert it to byte
+                  ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                  // Compress image to lower quality scale 1 - 100
+                  bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+                  byte[] userPic = stream.toByteArray();
+         });
+
+      **/
 
         objectIds = null;
         objectPosts = null;
@@ -86,16 +133,39 @@ public class MainActivity extends ActionBarActivity {
   /**      test = new Post();
         Post test1 = new Post();
 
-   **/    // txt = (TextView) findViewById(R.id.textView3);
-
-        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+  **/
 
         lv = (ListView) findViewById(R.id.postListView);
-
         pd = new ProgressDialog(MainActivity.this);
 
+/**
+       //ParseFile pic = photoFile.getParseFile("profilePicture"); // "image" is the key for the ParseFile column in Parse
+
+        query.whereEqualTo("profilePicture", currUser);
+        query.findInBackground(new FindCallback<ParseFile>() {
+
+            public void done(byte[] data, ParseException e) {
+                 photoFile photo = new photoFile();                            //create PhotoFile object
+                //ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
+                photo.getOwner();       //set this photo's owner as current user
+
+                //Bitmap the Imageview userProfilePic
+                Bitmap bitmap = ((BitmapDrawable)userPic.getDrawable()).getBitmap();
 
 
+                // Convert it to byte
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                byte[] userPic = stream.toByteArray();
+                // Compress image to lower quality scale 1 - 100
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                // The image is loaded and displayed!
+                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                //userPic.setImageBitmap(bmp);
+
+            }
+        });
+
+**/
 
         un.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -103,7 +173,7 @@ public class MainActivity extends ActionBarActivity {
                 //ParseUser currentUser = ParseUser.getCurrentUser();
                 Intent intent = new Intent(MainActivity.this, UserPage.class);
                 // intent.putExtra("userName", currentUser.getUsername().toString().trim());
-                intent.putExtra("userName",un.getText());
+                intent.putExtra("userName", un.getText());
                 startActivity(intent);
             }
         });
@@ -116,10 +186,31 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserPage.class);
                 // intent.putExtra("userName", currentUser.getUsername().toString().trim());
-                intent.putExtra("userName",un.getText());
+                intent.putExtra("userName", un.getText());
                 startActivity(intent);
             }
         });
+
+/*
+        query.getInBackground("", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                } else {
+                    // something went wrong
+                }
+            }
+        });
+*/
+    //    query.whereEqualTo("profilePic", currUser);
+     //   userPic.setImageDrawable();
+
+      //  Bitmap bmp = BitmapFactory.decode//ByteArray(byteArray, 0, byteArray.length);
+     //   ImageView image = (ImageView) findViewById(R.id.imageView1);
+
+        //image.setImageBitmap(bmp);
+
+
 
 
 
@@ -172,21 +263,22 @@ lv.setAdapter(listAdapter);
             }
         });
 
-
-        ParseUser user = new ParseUser();
 /**
-        makePost();
+        ParseUser user = new ParseUser();
+
+       // makePost();
         Post post = new Post();
         post.setOwner(user.getCurrentUser());
         post.setUserName(user.getCurrentUser().toString());
         post.setDisplayName(user.getCurrentUser().getUsername());
-        userimg = post.getUserPicture();
+       userimg = post.getUserPicture();
         //converting Byte[] to imageView
         Bitmap bmp = BitmapFactory.decodeByteArray(userimg, 0, userimg.length);
         userPic.setImageBitmap(bmp);
+     //   postUserPic.setImageBitmap(bmp);
 
       //  userPic = post.getUserPicture();
-        post.setUserPicture(userimg);
+     //   post.getUserPicture();
 
 /**        post.setVote1(2);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable
@@ -228,8 +320,7 @@ lv.setAdapter(listAdapter);
     public void makePost(){
         //THis is to locate the image but it will be replaced by going into the
         //gallery/taking a picture
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable
-                .user_icon);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_icon);
 
         //Convert it to byte
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

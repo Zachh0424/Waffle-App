@@ -1,6 +1,9 @@
 package com.parse.starter;
 
+import android.content.ContentResolver;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 
 import com.parse.ParseClassName;
@@ -11,6 +14,7 @@ import com.parse.ParseUser;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.parse.ParseACL;
@@ -18,6 +22,10 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 /**
@@ -33,21 +41,17 @@ public class photoFile extends ParseObject {
     String userName;
     String userComment;
     ParseFile photo;
+    Post post;
 
-/*
-    THIS IS A NEW CHANGE TO TEST IF PUSHED CORRECTLY
- */
-
-
-ParseUser currUser = ParseUser.getCurrentUser();
+    ParseUser currUser = ParseUser.getCurrentUser();
 
     public photoFile(){
 
     }
 
 
-    public photoFile( ParseFile file){  //byte[] userPic, Bitmap img1, Bitmap img2,
-
+    public photoFile( ParseFile file, ParseUser user){  //byte[] userPic, Bitmap img1, Bitmap img2,
+        currUser = user;
         photo = file;
 
     }
@@ -95,8 +99,10 @@ ParseUser currUser = ParseUser.getCurrentUser();
      }
      **/
     public void setUserPicture(ParseFile photo){
-        put("profilePicture", photo);
+        //photo = this.photo;
+                 put("profilePicture", photo);
         currUser.put("profilePicture", photo);
+        // post.setUserPicture(photo);
     }
 
     /**
@@ -108,8 +114,11 @@ ParseUser currUser = ParseUser.getCurrentUser();
      }
      **/
     public ParseUser getOwner() {
+
         return getParseUser("owner");
     }
+
+
     public void setOwner(ParseUser user) {
         put("owner", user);
     }
@@ -128,6 +137,8 @@ ParseUser currUser = ParseUser.getCurrentUser();
  }
 
  **/
+
+
 
 
 }

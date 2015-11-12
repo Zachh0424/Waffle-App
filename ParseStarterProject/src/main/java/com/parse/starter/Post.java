@@ -23,7 +23,7 @@ public class Post extends ParseObject{
     int voteForimg1, voteForimg2;
     String userName;
     String userComment;
-
+    ImageView userPic;
 
 
 
@@ -33,7 +33,7 @@ public class Post extends ParseObject{
     }
 
     public Post(Bitmap user, Bitmap img1, Bitmap img2, int voteForimg1,
-                int voteForimg2, String userName, String userComment){
+                int voteForimg2, String userName, String userComment, ImageView temp){
         this.userImage = user;
 
         this.img2 = img2;
@@ -41,6 +41,7 @@ public class Post extends ParseObject{
         this.voteForimg2 = voteForimg2;
         this.userName = userName;
         this.userComment = userComment;
+
 
     }
 
@@ -85,8 +86,9 @@ public class Post extends ParseObject{
         this.userName = userName;
     }
 
-    public void setUserPicture(byte[] userPic){
-            userPic = userImg;
+    public void setUserPicture(ParseFile photo){
+
+        put("profilePicture", photo);
     }
 
 

@@ -114,35 +114,16 @@ public class UserPage extends ActionBarActivity {
         });
 
 
-/**
- ParseFile photoFile = new ParseFile(userPic);
- makePhoto();
-
- // userPic.setOwner(user.getCurrentUser());
-
-
- photoFile.setUserPicture(userPic);
- //    post.put("Image1", file);
- ParseACL acl = new ParseACL();
- //  photoFile.setACL(acl);
- photoFile.saveInBackground();
- **/
-
-        /*
-        photoFile photoFile;
-        makePhoto(userProfilePic);
-*/
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
     }
+
 
     /* Result activity method for the User Profile pic
         this gets the data for the image stored on the user's device if
         the user DOES choose one and
         sets the chosen image
      */
-
-
     public void onActivityResult(int request,int result, Intent data){
         //check if change has been made
         if(result == RESULT_OK) {
@@ -150,14 +131,13 @@ public class UserPage extends ActionBarActivity {
                 userProfilePic.setImageURI(data.getData());
             miniUserPic.setImageURI(data.getData());
 
-            makePhoto(userProfilePic);
+           makePhoto(userProfilePic);
         }
 
     }
 
     // This is the section where the images is converted, saved, and uploaded.
     public void makePhoto(ImageView userProfilePic){
-
 
         photo = new photoFile();                            //create PhotoFile object
         ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
@@ -178,14 +158,10 @@ public class UserPage extends ActionBarActivity {
 
 
         // Create the ParseFile passing the byte[] and the name of this specific image file
-        ParseFile file = new ParseFile("UserPicture3", userPic);
+        ParseFile file = new ParseFile("UserPicture", userPic);
 
 
-        //photoFile.setUserPicture(file);
-       // photo.put("profilePicture",file);
-        //currentUser.put("profilePicture", file);
-
-
+        //set the pic
         photo.setUserPicture(file);
 
         //may need to check here for duplicates before saving again
@@ -195,6 +171,8 @@ public class UserPage extends ActionBarActivity {
 
 
     }
+
+
 
 /*
         gridView = (GridView) findViewById(R.id.gridView);
@@ -224,6 +202,8 @@ public class UserPage extends ActionBarActivity {
     }
 
     */
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
