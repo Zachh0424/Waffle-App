@@ -158,7 +158,7 @@ public class UserPage extends ActionBarActivity {
 
         //userProfilePic.getDrawable();
 
-        photoFile photoFile = new photoFile();
+        photoFile photo = new photoFile();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
 
@@ -193,7 +193,7 @@ public class UserPage extends ActionBarActivity {
 
         currentUser.put("profilePicture", file);
 
-        photoFile.setUserPicture(file);
+        photo.setUserPicture(file);
 
        file.saveInBackground();
         currentUser.saveInBackground();
