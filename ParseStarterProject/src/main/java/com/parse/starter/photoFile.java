@@ -1,13 +1,16 @@
 package com.parse.starter;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
@@ -26,6 +29,8 @@ import com.parse.ParseUser;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -35,10 +40,10 @@ import java.io.InputStream;
 @ParseClassName("photoFile")
 public class photoFile extends ParseObject {
 
-    Bitmap img1, img2;
+    Bitmap img1, img2, userImage;
     //byte[] img1;
     int voteForimg1, voteForimg2;
-    String userName;
+    String userName, title;
     String userComment;
     ParseFile photo;
     Post post;
@@ -49,11 +54,17 @@ public class photoFile extends ParseObject {
 
     }
 
+    public photoFile(Bitmap image, String title) {
+        super();
+        this.userImage = image;
+        this.title = title;
+    }
 
-    public photoFile( ParseFile file, ParseUser user){  //byte[] userPic, Bitmap img1, Bitmap img2,
+    public photoFile( ParseFile file, ParseUser user, Bitmap userimg, String txt){// Bitmap img1, Bitmap img2,
         currUser = user;
         photo = file;
-
+        userImage = userimg;
+        title = txt;
     }
 
 
@@ -85,19 +96,18 @@ public class photoFile extends ParseObject {
      public int getVoteForimg1() {
      return voteForimg1;
      }
-
-     public String getUserName() {
-     return userName;
-     }
      **/
-    public ParseFile getUserPicture(){
+    public String getUserName() {
+        return userName;
+    }
+
+    public ParseFile getUserPictureFile(){
         return photo;
     }
-    /**
-     public void setUserName(String userName){
-     this.userName = userName;
-     }
-     **/
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+
     public void setUserPicture(ParseFile photo){
         //photo = this.photo;
                  put("profilePicture", photo);
@@ -122,6 +132,59 @@ public class photoFile extends ParseObject {
     public void setOwner(ParseUser user) {
         put("owner", user);
     }
+
+    /*
+        public Bitmap getImage() {
+            return userPic;
+        }
+
+        public void setImage(Bitmap image) {
+            userPic = image;
+        }
+    */
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+
+    }
+
+    public void setUserPicture(Bitmap bitmap) {
+        userImage = bitmap;
+    }
+
+    public Bitmap getUserPicBmp(){
+        return userImage;
+    }
+/**
+ public void setFeatureData(Context context, String className, String itemSelected,
+ String[] valueToGet, String colName) {
+ featureList = new ArrayList<String>();
+ ParseQuery query = new ParseQuery(className);
+ query.whereEqualTo(colName, itemSelected);
+ try {
+ List<ParseObject> dataHolder = query.find();
+ if(dataHolder!= null){
+ for(int counter =0;counter<dataHolder.size();counter++){
+ for (int innerCounter = 0 ; innerCounter < valueToGet.length; innerCounter ++) {
+ String datas = dataHolder.get(counter).getString(valueToGet[innerCounter]);
+ featureList.add(datas);
+ }
+ }
+ }
+ objectId = dataHolder.get(0).getObjectId();
+ ParseObject fileHolder = query.get(objectId);
+ ParseFile bum = (ParseFile) fileHolder.get("Image");
+ byte[] file = bum.getData();
+ image = BitmapFactory.decodeByteArray(file,0,file.length);
+ } catch (ParseException e) {
+ // message if faile
+ }
+ }
+ **/
+
 
 /**
  public void setVote1(int voteForimg1) {

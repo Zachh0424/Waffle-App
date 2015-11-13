@@ -79,6 +79,17 @@ public class MainActivity extends ActionBarActivity {
         un = (TextView) findViewById(R.id.mainUserId);
         un.setText(getIntent().getSerializableExtra("userName").toString().trim());
         userPic = (ImageView) findViewById(R.id.imageView);
+        lv = (ListView) findViewById(R.id.postListView);
+        pd = new ProgressDialog(MainActivity.this);
+
+        objectIds = null;
+        objectPosts = null;
+
+
+        query = new ParseQuery<>("Post");
+        list = new ArrayList<>();
+
+
        // postUserPic = (ImageView) findViewById(R.id.userPicture);
       //  makeUserPic(proPic);
 
@@ -122,12 +133,7 @@ public class MainActivity extends ActionBarActivity {
 
       **/
 
-        objectIds = null;
-        objectPosts = null;
 
-
-        query = new ParseQuery<>("Post");
-        list = new ArrayList<>();
 
         //query = ParseQuery.getQuery("Post");
   /**      test = new Post();
@@ -135,8 +141,7 @@ public class MainActivity extends ActionBarActivity {
 
   **/
 
-        lv = (ListView) findViewById(R.id.postListView);
-        pd = new ProgressDialog(MainActivity.this);
+
 
 /**
        //ParseFile pic = photoFile.getParseFile("profilePicture"); // "image" is the key for the ParseFile column in Parse
@@ -216,37 +221,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-/**
- ///////////////////////////////////////////
- query.whereEqualTo("displayName", "test");
- query.findInBackground(new FindCallback<ParseObject>() {
-@Override
-public void done(final List<ParseObject> objects, ParseException e) {
-Log.d("antone", "test");
-Log.d("Testing", "123");
-objectIds = new String[objects.size()];
-String[] ids = new String[objects.size()];
-if (e == null) {
-Log.d("object size:", objects.size() + "");
-for (int i = 0; i < objects.size(); i++) {
-Log.d("Object:", objects.get(i).toString());
-objectIds[i] = objects.get(i).getObjectId().toString();
-ids[i] = objects.get(i).getObjectId().toString();
-ParseObject parseObject = objects.get(i);
-test.setUserName(objects.get(i) + "");
-txt.setText(test.getUserName());
-}
-sendToAdpater(ids);
-lv.setAdapter(listAdapter);
-} else {
-}
-}
-});
- //listAdapter = new CustomAdapter(this, test);
- ////////////////////////////////////////////
- **/
 
-        //query.whereEqualTo("displayName", "test");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {

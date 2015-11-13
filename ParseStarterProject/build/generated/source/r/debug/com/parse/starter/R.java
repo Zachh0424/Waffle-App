@@ -1543,7 +1543,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0c003e;
         public static final int action_mode_bar_stub=0x7f0c003d;
         public static final int action_mode_close_button=0x7f0c0026;
-        public static final int action_settings=0x7f0c007e;
+        public static final int action_settings=0x7f0c0081;
         public static final int activity_chooser_view_content=0x7f0c0027;
         public static final int alertTitle=0x7f0c0031;
         public static final int always=0x7f0c0017;
@@ -1582,6 +1582,7 @@ containing a value of this type.
         public static final int line3=0x7f0c006e;
         public static final int linearLayout=0x7f0c0053;
         public static final int linearLayout2=0x7f0c007a;
+        public static final int linearLayout3=0x7f0c007e;
         public static final int listMode=0x7f0c000a;
         public static final int list_item=0x7f0c002b;
         public static final int loginBtt=0x7f0c005f;
@@ -1599,6 +1600,7 @@ containing a value of this type.
         public static final int passwordEdt=0x7f0c0051;
         public static final int passwordSignupEdt=0x7f0c005b;
         public static final int password_again_edit_text=0x7f0c005c;
+        public static final int photoGallery=0x7f0c0080;
         public static final int postListView=0x7f0c0057;
         public static final int profileUserId=0x7f0c007b;
         public static final int progress_circular=0x7f0c0006;
@@ -1642,6 +1644,7 @@ containing a value of this type.
         public static final int up=0x7f0c0009;
         public static final int useLogo=0x7f0c0013;
         public static final int userDescription=0x7f0c0075;
+        public static final int userListView=0x7f0c007f;
         public static final int userName=0x7f0c0062;
         public static final int userName2=0x7f0c0074;
         public static final int userNameEdt=0x7f0c0050;
@@ -1753,12 +1756,13 @@ containing a value of this type.
         public static final int progress_login=0x7f06001d;
         public static final int progress_signup=0x7f06001e;
         public static final int status_bar_notification_info_overflow=0x7f06001f;
-        public static final int title_activity_auto_sign_in=0x7f060020;
-        public static final int title_activity_login=0x7f060021;
-        public static final int title_activity_sign_up=0x7f060022;
-        public static final int title_activity_welcome=0x7f060023;
-        public static final int title_user_page=0x7f060024;
-        public static final int userName=0x7f060025;
+        public static final int title_PhotoGallery=0x7f060020;
+        public static final int title_activity_auto_sign_in=0x7f060021;
+        public static final int title_activity_login=0x7f060022;
+        public static final int title_activity_sign_up=0x7f060023;
+        public static final int title_activity_welcome=0x7f060024;
+        public static final int title_user_page=0x7f060025;
+        public static final int userName=0x7f060026;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f080073;

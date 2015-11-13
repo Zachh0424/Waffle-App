@@ -57,14 +57,10 @@
             android:name="com.parse.starter.UserPage"
             android:label="@string/title_user_page" >
         </activity>
-
-        <!--
-               <activity
-               android:name=".PhotoGallery"
-               android:label="@string/title_PhotoGallery">
-               </activity>
-        -->
-
+        <activity
+            android:name="com.parse.starter.Gallery"
+            android:label="@string/title_PhotoGallery" >
+        </activity>
     </application>
 
 </manifest>

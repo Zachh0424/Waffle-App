@@ -1,6 +1,8 @@
 package com.parse.starter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -13,14 +15,19 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
@@ -32,24 +39,33 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserPage extends ActionBarActivity {
-    TextView un;
+    ParseUser currentUser = ParseUser.getCurrentUser();
+    TextView un, txt, gallery;
     ImageView userProfilePic, miniUserPic, userImages;
-    Uri img;
-    ParseQuery<ParseObject> picQuery;
+    // Uri img;
+    ListView lv;
+    List<ParseObject> ob;
+    ArrayAdapter<String> adapter;
+    ListAdapter listAdapter;
+    ParseQuery<ParseObject> query;
+    ArrayList<Post> list;
+    ProgressDialog pd;
     //  ParseFile file;
     //  photoFile photoFile = new photoFile(file);
     //ParseObject photoFile = new ParseObject("photoFile");
-    //byte[] userPic, userimg;
+    byte[] userPic, userimg, image;
 
     private GridView gridView;
-
+ //   Bitmap currPic;
     photoFile photo;
+    Post post;
 
-
+ //   ParseUser owner = photo.getOwner();
 
     //  private PhotoGallery gridAdapter;
 
@@ -60,24 +76,27 @@ public class UserPage extends ActionBarActivity {
         setContentView(R.layout.user_page);
         un = (TextView) findViewById(R.id.profileUserId);
         un.setText(getIntent().getStringExtra("userName"));
+/**
+        //currPic = post.getUserPicture();
+        currPic = photo.getUserPicBmp();
+ **/
+        //  gallery = (TextView) findViewById(R.id.photoGallery);
+        lv = (ListView) findViewById(R.id.userListView);
+        pd = new ProgressDialog(UserPage.this);
+
+        query = new ParseQuery<>("Post");
+        list = new ArrayList<>();
+
 
         //       un.setText(getIntent().getSerializableExtra("userName").toString());
 
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
         miniUserPic = (ImageView) findViewById(R.id.miniUserPic);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-
-
-
-        //  picQuery = new ParseQuery<>("User");
-
-        // ParseFile currentProfilePic = ParseFile(currentUser.getUsername().);
-        //userProfilePic.setImageDrawable(currentUser.getUserPicture());
-
-
-
+/**
+        setFeatureData("photoFile", "profilePicture", userPic, owner);
+        userProfilePic.setImageBitmap(currPic);
+**/
 
         //set onclick listener for userProfile pic
         userProfilePic.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +131,33 @@ public class UserPage extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+/**
+ gallery.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+startActivity(new Intent(UserPage.this, Gallery.class));
+// setContentView(R.layout.photo_gallery);
+}
+});
+
+ **/
+
+        query.whereEqualTo("displayName", currentUser.getUsername());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.d("number of objects", objects.size() + "");
+                    Post[] pst = new Post[objects.size()];
+                    for (int i = 0; i < objects.size(); i++) {
+                        Log.d("ParseObject:", objects.get(i).toString());
+                        pst[i] = (Post) objects.get(i);
+                    }
+                    sendToAdpater(pst);
+                    lv.setAdapter(listAdapter);
+                }
+            }
+        });
 
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
@@ -131,7 +177,7 @@ public class UserPage extends ActionBarActivity {
                 userProfilePic.setImageURI(data.getData());
             miniUserPic.setImageURI(data.getData());
 
-           makePhoto(userProfilePic);
+            makePhoto(userProfilePic);
         }
 
     }
@@ -140,13 +186,12 @@ public class UserPage extends ActionBarActivity {
     public void makePhoto(ImageView userProfilePic){
 
         photo = new photoFile();                            //create PhotoFile object
+    //    post = new Post();
         ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
         photo.setOwner(currentUser.getCurrentUser());       //set this photo's owner as current user
 
 
-
-
-        //Bitmap the Imageview userProfilePic
+        //Bitmap the ImageView userProfilePic
         Bitmap bitmap = ((BitmapDrawable)userProfilePic.getDrawable()).getBitmap();
 
 
@@ -159,22 +204,86 @@ public class UserPage extends ActionBarActivity {
 
         // Create the ParseFile passing the byte[] and the name of this specific image file
         ParseFile file = new ParseFile("UserPicture", userPic);
-
-
+/**
+        // call to method to convert Parse file to bitmap
+        setFeatureData("photoFile","profilePicture",userPic, owner);
+**/
         //set the pic
         photo.setUserPicture(file);
-
+ /**       post.getUserPicture();
+        photo.getUserPicBmp();
+**/
         //may need to check here for duplicates before saving again
         photo.saveInBackground();
         file.saveInBackground();
         currentUser.saveInBackground();
 
 
+
+    }
+
+    public void sendToAdpater(Post[] array){
+
+        pd = ProgressDialog.show(this, "dialog title",
+                "dialog message", true);
+        for (int i = 0; i < array.length; i++){
+            Log.d("Object:", array[i].toString());
+        }
+        listAdapter = new CustomAdapter(this, array);
+        pd.dismiss();
+    }
+
+    public void addToListArray(List<ParseObject> lst){
+        list.clear();
+        for (int i = 0; i < lst.size(); i++){
+
+            list.add((Post) lst.get(i));
+            Log.d("Adding to Array list", "Added " + i +" "+((Post) lst.get(i)).getUserName());
+        }
+        txt.setText("Here");
+    }
+
+    public void makePost(){
+
+
+
+        //THis is to locate the image but it will be replaced by going into the
+        //gallery/taking a picture
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_icon);
+
+        //Convert it to byte
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        //compress the image
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] image2 = stream.toByteArray();
+        image = image2;
+        //create the parse file
+        //file = new ParseFile("postImage.png", image);
+        //file.saveInBackground();
+    }
+
+
+    public void getPosts(){
+        adapter.clear();
+
+        Log.d("Clearing Adapter", "Success");
+        for (int i = 0; i < list.size(); i++) {
+            Log.d("Adding to adapter", "success");
+            adapter.add(list.get(i).toString());
+
+        }
+        adapter.notifyDataSetChanged();
+
+        lv.setAdapter(adapter);
+
+        //pd.dismiss();
     }
 
 
 
+
 /*
+
         gridView = (GridView) findViewById(R.id.gridView);
         gridAdapter = new PhotoGallery(this, R.layout.photo_gallery_layout, getPic());
         gridView.setAdapter(gridAdapter);
@@ -203,7 +312,42 @@ public class UserPage extends ActionBarActivity {
 
     */
 
+/*
+Figure out what exactly is going on in the following method and apply it
+ */
+/**
+    public void setFeatureData( String className, String colName, byte[] userPic, ParseUser owner) {
+        ArrayList<String> featureList = new ArrayList<>();
+        ParseQuery query = new ParseQuery(className);
+        String[] valueToGet = new String[Integer.parseInt(colName)];
+        // valueToGet = String.valueOf(colName);
 
+        query.whereEqualTo(owner.getUsername(), owner);
+        query.whereEqualTo(colName, userPic);
+        try {
+            List<ParseObject> dataHolder = query.find();
+            if (dataHolder != null) {
+                for (int counter = 0; counter < dataHolder.size(); counter++) {
+                    for (int innerCounter = 0; innerCounter < valueToGet.length; innerCounter++) {
+                        String data = dataHolder.get(counter).getString(valueToGet[innerCounter]);
+                        featureList.add(data);
+                    }
+                }
+            }
+
+            //objectId = dataHolder.get(0).getObjectId();
+            ParseObject fileHolder = query.get(currentUser.getUsername());
+            ParseFile bum = (ParseFile) fileHolder.get("profilePicture");
+            userPic = bum.getData();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(userPic, 0, userPic.length);
+            photo.setUserPicture(bitmap);
+            post.setUserPicture(bitmap);
+        } catch (ParseException e) {
+            // message if faile
+        }
+    }
+
+**/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -237,7 +381,5 @@ public class UserPage extends ActionBarActivity {
 
 
     }
-
-
 
 }

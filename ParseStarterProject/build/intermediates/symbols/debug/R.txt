@@ -426,7 +426,7 @@ int id action_menu_presenter 0x7f0c0004
 int id action_mode_bar 0x7f0c003e
 int id action_mode_bar_stub 0x7f0c003d
 int id action_mode_close_button 0x7f0c0026
-int id action_settings 0x7f0c007e
+int id action_settings 0x7f0c0081
 int id activity_chooser_view_content 0x7f0c0027
 int id alertTitle 0x7f0c0031
 int id always 0x7f0c0017
@@ -465,6 +465,7 @@ int id line1 0x7f0c006a
 int id line3 0x7f0c006e
 int id linearLayout 0x7f0c0053
 int id linearLayout2 0x7f0c007a
+int id linearLayout3 0x7f0c007e
 int id listMode 0x7f0c000a
 int id list_item 0x7f0c002b
 int id loginBtt 0x7f0c005f
@@ -482,6 +483,7 @@ int id password 0x7f0c0063
 int id passwordEdt 0x7f0c0051
 int id passwordSignupEdt 0x7f0c005b
 int id password_again_edit_text 0x7f0c005c
+int id photoGallery 0x7f0c0080
 int id postListView 0x7f0c0057
 int id profileUserId 0x7f0c007b
 int id progress_circular 0x7f0c0006
@@ -525,6 +527,7 @@ int id topPanel 0x7f0c002f
 int id up 0x7f0c0009
 int id useLogo 0x7f0c0013
 int id userDescription 0x7f0c0075
+int id userListView 0x7f0c007f
 int id userName 0x7f0c0062
 int id userName2 0x7f0c0074
 int id userNameEdt 0x7f0c0050
@@ -626,12 +629,13 @@ int string postDescription 0x7f06001c
 int string progress_login 0x7f06001d
 int string progress_signup 0x7f06001e
 int string status_bar_notification_info_overflow 0x7f06001f
-int string title_activity_auto_sign_in 0x7f060020
-int string title_activity_login 0x7f060021
-int string title_activity_sign_up 0x7f060022
-int string title_activity_welcome 0x7f060023
-int string title_user_page 0x7f060024
-int string userName 0x7f060025
+int string title_PhotoGallery 0x7f060020
+int string title_activity_auto_sign_in 0x7f060021
+int string title_activity_login 0x7f060022
+int string title_activity_sign_up 0x7f060023
+int string title_activity_welcome 0x7f060024
+int string title_user_page 0x7f060025
+int string userName 0x7f060026
 int style AlertDialog_AppCompat 0x7f080073
 int style AlertDialog_AppCompat_Light 0x7f080074
 int style Animation_AppCompat_Dialog 0x7f080075

@@ -30,7 +30,14 @@
     <string name="title_activity_auto_sign_in">AutoSignInActivity</string>
     <string name="title_user_page">user_page</string>
     <string name="postDescription">users description</string>
+    <string name="title_PhotoGallery">photo_gallery</string>
 
 
     <item name="action_main" type="id" />
+
+
+
+
+
+
 </resources>
