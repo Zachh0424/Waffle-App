@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
 import com.parse.ParseFile;
@@ -37,6 +38,7 @@ import com.parse.ParseUser;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -70,20 +72,20 @@ public class UserPage extends ActionBarActivity {
     //  private PhotoGallery gridAdapter;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page);
         un = (TextView) findViewById(R.id.profileUserId);
         un.setText(getIntent().getStringExtra("userName"));
-/**
-        //currPic = post.getUserPicture();
-        currPic = photo.getUserPicBmp();
- **/
-        //  gallery = (TextView) findViewById(R.id.photoGallery);
+
+       //  gallery = (TextView) findViewById(R.id.photoGallery);
         lv = (ListView) findViewById(R.id.userListView);
         pd = new ProgressDialog(UserPage.this);
 
+        picQuery = new ParseQuery<>("photoFile");
         query = new ParseQuery<>("Post");
         list = new ArrayList<>();
 
@@ -93,10 +95,13 @@ public class UserPage extends ActionBarActivity {
         userProfilePic = (ImageView) findViewById(R.id.userProfilePic);
         miniUserPic = (ImageView) findViewById(R.id.miniUserPic);
 
-/**
-        setFeatureData("photoFile", "profilePicture", userPic, owner);
-        userProfilePic.setImageBitmap(currPic);
-**/
+
+
+             callProfilePic();
+             userProfilePic.setImageBitmap(currPic);
+            miniUserPic.setImageBitmap(currPic);
+
+
 
         //set onclick listener for userProfile pic
         userProfilePic.setOnClickListener(new View.OnClickListener() {
@@ -160,25 +165,6 @@ startActivity(new Intent(UserPage.this, Gallery.class));
         });
 
 
-   /**
-         //query for currUser's profile picture
-         picQuery.whereEqualTo("displayName", currentUser.getUsername());
-         picQuery.whereEqualTo("UserPicture", userPic);
-         picQuery.findInBackground(new FindCallback<ParseObject>() {
-        @Override
-        public void done(List<ParseObject> objects, ParseException e) {
-        if (e == null)
-
-        // ParseUser.getCurrentUser().fetch("profilePicture", userPic);
-        photo.setUserPicBmp(userPic);
-        currPic = photo.getUserPicBmp();
-        userProfilePic.setImageBitmap(currPic);
-        }
-
-        });
-
-    **/
-
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
     }
@@ -202,16 +188,16 @@ startActivity(new Intent(UserPage.this, Gallery.class));
     }
 
     // This is the section where the images is converted, saved, and uploaded.
-    public void makePhoto(ImageView userProfilePic){
+    public void makePhoto(ImageView userProfilePic) {
 
         photo = new photoFile();                            //create PhotoFile object
-    //    post = new Post();
-        ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
+        //    post = new Post();
+        // ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
         photo.setOwner(currentUser.getCurrentUser());       //set this photo's owner as current user
         photo.setDisplayName(currentUser.getUsername());    //set this photo's display name
 
         //Bitmap the ImageView userProfilePic
-        Bitmap bitmap = ((BitmapDrawable)userProfilePic.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) userProfilePic.getDrawable()).getBitmap();
 
 
         // Convert it to byte
@@ -223,23 +209,43 @@ startActivity(new Intent(UserPage.this, Gallery.class));
 
         // Create the ParseFile passing the byte[] and the name of this specific image file
         ParseFile file = new ParseFile("UserPicture", userPic);
-/**
-        // call to method to convert Parse file to bitmap
-        setFeatureData("photoFile","profilePicture",userPic, owner);
-**/
+
         //set the pic
         photo.setUserPicture(file);
- /**       post.getUserPicture();
-        photo.getUserPicBmp();
-**/
+        post.setUserPicture(file);
+
+
         //may need to check here for duplicates before saving again
         photo.saveInBackground();
         file.saveInBackground();
         currentUser.saveInBackground();
-
-
-
     }
+
+
+public Bitmap callProfilePic() {
+    photo = new photoFile();
+    ParseFile file = photo.getUserPicture();
+ if(file != null) {
+     byte[] userPic = new byte[0];
+     try {
+         userPic = file.getData();
+         photo.setUserPicBmp(userPic);
+         currPic = photo.getUserPicBmp();
+     } catch (ParseException e) {
+         e.printStackTrace();
+     }
+
+ }
+                   /*
+                    Intent intent = new Intent(this, .class);
+                    intent.putExtra("profilePicture", data);
+                    startActivity(intent);
+                   */
+
+
+    return currPic;
+}
+
 
     public void sendToAdpater(Post[] array){
 
@@ -263,8 +269,6 @@ startActivity(new Intent(UserPage.this, Gallery.class));
     }
 
     public void makePost(){
-
-
 
         //THis is to locate the image but it will be replaced by going into the
         //gallery/taking a picture

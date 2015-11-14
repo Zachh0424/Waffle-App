@@ -54,8 +54,8 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<Post> list;
     TextView txt;
     ProgressDialog pd;
-    photoFile proPic;
-
+    photoFile photo;
+    Bitmap currPic;
     ImageView userPic, postUserPic;
 
     String[] objectIds;
@@ -79,6 +79,8 @@ public class MainActivity extends ActionBarActivity {
         un = (TextView) findViewById(R.id.mainUserId);
         un.setText(getIntent().getSerializableExtra("userName").toString().trim());
         userPic = (ImageView) findViewById(R.id.imageView);
+        callProfilePic();
+        userPic.setImageBitmap(currPic);
         lv = (ListView) findViewById(R.id.postListView);
         pd = new ProgressDialog(MainActivity.this);
 
@@ -89,88 +91,12 @@ public class MainActivity extends ActionBarActivity {
         query = new ParseQuery<>("Post");
         list = new ArrayList<>();
 
-
-       // postUserPic = (ImageView) findViewById(R.id.userPicture);
+/*
+        postUserPic = (ImageView) findViewById(R.id.userPicture);
+        postUserPic.setImageBitmap(currPic);
+*/
       //  makeUserPic(proPic);
 
-        /**
-        userimg = post.getUserPicture();
-        //converting Byte[] to imageView
-        Bitmap bmp = BitmapFactory.decodeByteArray(userimg, 0, userimg.length);
-        userPic.setImageBitmap(bmp);
-        **/
-/**
-        query.findInBackground(new FindCallback<ParseObject>() {
-           @Override
-           public void done(final List<ParseObject> objects, ParseException e) {
-            //Log.d("UserPicture2", "profilePicture");
-            // Log.d("Testing", "123");
-            objectIds = new String[objects.size()];
-            String[] ids = new String[objects.size()];
-            if (e == null) {
-               // Log.d("object size:", objects.size() + "");
-               for (int i = 0; i < objects.size(); i++) {
-                 Log.d("Object:", objects.get(i).toString());
-                 objectIds[i] = objects.get(i).getObjectId().toString();
-                 ids[i] = objects.get(i).getObjectId().toString();
-                 ParseObject parseObject = objects.get(i);
-                 test.setUserName(objects.get(i) + "");
-                 if(test.equals(currUser.getUsername())){
-
-                 }
-                  // txt.setText(test.getUserName());
-                  }
-                  }
-                  }
-
-                  Bitmap bitmap = ((BitmapDrawable) userPic.getDrawable()).getBitmap();
-                  // Convert it to byte
-                  ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                  // Compress image to lower quality scale 1 - 100
-                  bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
-                  byte[] userPic = stream.toByteArray();
-         });
-
-      **/
-
-
-
-        //query = ParseQuery.getQuery("Post");
-  /**      test = new Post();
-        Post test1 = new Post();
-
-  **/
-
-
-
-/**
-       //ParseFile pic = photoFile.getParseFile("profilePicture"); // "image" is the key for the ParseFile column in Parse
-
-        query.whereEqualTo("profilePicture", currUser);
-        query.findInBackground(new FindCallback<ParseFile>() {
-
-            public void done(byte[] data, ParseException e) {
-                 photoFile photo = new photoFile();                            //create PhotoFile object
-                //ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
-                photo.getOwner();       //set this photo's owner as current user
-
-                //Bitmap the Imageview userProfilePic
-                Bitmap bitmap = ((BitmapDrawable)userPic.getDrawable()).getBitmap();
-
-
-                // Convert it to byte
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                byte[] userPic = stream.toByteArray();
-                // Compress image to lower quality scale 1 - 100
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                // The image is loaded and displayed!
-                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                //userPic.setImageBitmap(bmp);
-
-            }
-        });
-
-**/
 
         un.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -324,6 +250,35 @@ public class MainActivity extends ActionBarActivity {
 
         //pd.dismiss();
     }
+
+
+
+    public Bitmap callProfilePic() {
+        photo = new photoFile();
+        ParseFile file = photo.getUserPicture();
+        if(file != null) {
+            byte[] userPic = new byte[0];
+            try {
+                userPic = file.getData();
+                photo.setUserPicBmp(userPic);
+                currPic = photo.getUserPicBmp();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+                   /*
+                    Intent intent = new Intent(this, .class);
+                    intent.putExtra("profilePicture", data);
+                    startActivity(intent);
+                   */
+
+
+        return currPic;
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
