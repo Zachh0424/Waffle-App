@@ -52,7 +52,7 @@ public class UserPage extends ActionBarActivity {
     List<ParseObject> ob;
     ArrayAdapter<String> adapter;
     ListAdapter listAdapter;
-    ParseQuery<ParseObject> query;
+    ParseQuery<ParseObject> query, picQuery;
     ArrayList<Post> list;
     ProgressDialog pd;
     //  ParseFile file;
@@ -61,7 +61,7 @@ public class UserPage extends ActionBarActivity {
     byte[] userPic, userimg, image;
 
     private GridView gridView;
- //   Bitmap currPic;
+    Bitmap currPic;
     photoFile photo;
     Post post;
 
@@ -160,6 +160,25 @@ startActivity(new Intent(UserPage.this, Gallery.class));
         });
 
 
+   /**
+         //query for currUser's profile picture
+         picQuery.whereEqualTo("displayName", currentUser.getUsername());
+         picQuery.whereEqualTo("UserPicture", userPic);
+         picQuery.findInBackground(new FindCallback<ParseObject>() {
+        @Override
+        public void done(List<ParseObject> objects, ParseException e) {
+        if (e == null)
+
+        // ParseUser.getCurrentUser().fetch("profilePicture", userPic);
+        photo.setUserPicBmp(userPic);
+        currPic = photo.getUserPicBmp();
+        userProfilePic.setImageBitmap(currPic);
+        }
+
+        });
+
+    **/
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
     }
@@ -189,7 +208,7 @@ startActivity(new Intent(UserPage.this, Gallery.class));
     //    post = new Post();
         ParseUser currentUser = ParseUser.getCurrentUser();     //get the user
         photo.setOwner(currentUser.getCurrentUser());       //set this photo's owner as current user
-
+        photo.setDisplayName(currentUser.getUsername());    //set this photo's display name
 
         //Bitmap the ImageView userProfilePic
         Bitmap bitmap = ((BitmapDrawable)userProfilePic.getDrawable()).getBitmap();
@@ -312,42 +331,6 @@ startActivity(new Intent(UserPage.this, Gallery.class));
 
     */
 
-/*
-Figure out what exactly is going on in the following method and apply it
- */
-/**
-    public void setFeatureData( String className, String colName, byte[] userPic, ParseUser owner) {
-        ArrayList<String> featureList = new ArrayList<>();
-        ParseQuery query = new ParseQuery(className);
-        String[] valueToGet = new String[Integer.parseInt(colName)];
-        // valueToGet = String.valueOf(colName);
-
-        query.whereEqualTo(owner.getUsername(), owner);
-        query.whereEqualTo(colName, userPic);
-        try {
-            List<ParseObject> dataHolder = query.find();
-            if (dataHolder != null) {
-                for (int counter = 0; counter < dataHolder.size(); counter++) {
-                    for (int innerCounter = 0; innerCounter < valueToGet.length; innerCounter++) {
-                        String data = dataHolder.get(counter).getString(valueToGet[innerCounter]);
-                        featureList.add(data);
-                    }
-                }
-            }
-
-            //objectId = dataHolder.get(0).getObjectId();
-            ParseObject fileHolder = query.get(currentUser.getUsername());
-            ParseFile bum = (ParseFile) fileHolder.get("profilePicture");
-            userPic = bum.getData();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(userPic, 0, userPic.length);
-            photo.setUserPicture(bitmap);
-            post.setUserPicture(bitmap);
-        } catch (ParseException e) {
-            // message if faile
-        }
-    }
-
-**/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

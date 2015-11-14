@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -41,30 +42,37 @@ import java.util.List;
 public class photoFile extends ParseObject {
 
     Bitmap img1, img2, userImage;
-    //byte[] img1;
+    byte[]  pic, bytePic;
     int voteForimg1, voteForimg2;
-    String userName, title;
+    // String userName, title;
     String userComment;
     ParseFile photo;
     Post post;
+    ParseQuery<ParseObject> query;
 
     ParseUser currUser = ParseUser.getCurrentUser();
+
+
 
     public photoFile(){
 
     }
+    /**
+     public photoFile(Bitmap image, String title) {
+     super();
+     this.userImage = image;
+     this.title = title;
+     }
+     **/
 
-    public photoFile(Bitmap image, String title) {
-        super();
-        this.userImage = image;
-        this.title = title;
-    }
-
-    public photoFile( ParseFile file, ParseUser user, Bitmap userimg, String txt){// Bitmap img1, Bitmap img2,
+    public photoFile( ParseFile file, ParseUser user, Bitmap userimg, byte[] arr){// Bitmap img1, Bitmap img2,
+        pic = arr;
+        setUserPicBmp(pic);
         currUser = user;
         photo = file;
         userImage = userimg;
-        title = txt;
+        // title = txt;
+
     }
 
 
@@ -92,46 +100,47 @@ public class photoFile extends ParseObject {
     public Bitmap getImg2() {
         return img2;
     }
+
+
     /**
      public int getVoteForimg1() {
      return voteForimg1;
      }
      **/
-    public String getUserName() {
-        return userName;
-    }
-
-    public ParseFile getUserPictureFile(){
-        return photo;
-    }
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
-
-    public void setUserPicture(ParseFile photo){
-        //photo = this.photo;
-                 put("profilePicture", photo);
-        currUser.put("profilePicture", photo);
-        // post.setUserPicture(photo);
-    }
-
     /**
-     public String getDisplayName() {
-     return getString("displayName");
+     public String getUserName() {
+     return userName;
      }
+
+     public ParseFile getUserPictureFile(){
+     return photo;
+     }
+     public void setUserName(String userName){
+     this.userName = userName;
+     }
+     **/
+
+
+
+
      public void setDisplayName(String displayName) {
      put("displayName", displayName);
      }
-     **/
-    public ParseUser getOwner() {
 
-        return getParseUser("owner");
+    public String getDisplayName() {
+        return getString("displayName");
     }
 
 
     public void setOwner(ParseUser user) {
         put("owner", user);
     }
+
+    public ParseUser getOwner() {
+
+        return getParseUser("owner");
+    }
+
 
     /*
         public Bitmap getImage() {
@@ -142,22 +151,64 @@ public class photoFile extends ParseObject {
             userPic = image;
         }
     */
-    public String getTitle() {
-        return title;
+    /**
+     public String getTitle() {
+     return title;
+     }
+
+     public void setTitle(String title) {
+     this.title = title;
+
+     }
+     **/
+
+    public void setUserPicture(ParseFile photo){
+        put("profilePicture", photo);
+        currUser.put("profilePicture", photo);
+        // post.setUserPicture(photo);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-
-    }
-
-    public void setUserPicture(Bitmap bitmap) {
-        userImage = bitmap;
-    }
 
     public Bitmap getUserPicBmp(){
         return userImage;
     }
+
+
+     /*
+        newest try to find the curr user's profile pic and convert it back to bitmap
+        and set as image view
+        */
+    public void setUserPicBmp(byte[] pic) {
+        bytePic = pic;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        userImage = BitmapFactory.decodeByteArray(bytePic, 0, bytePic.length, options); //Convert bytearray to bitmap
+        bytePic = null;
+
+
+    }
+
+
+
+
+
+/*
+bytePic = pic;
+    query.whereEqualTo("profilePicture", photo);
+    query.findInBackground(new FindCallback<ParseObject>() {
+        @Override
+        public void done(List<ParseObject> objects, ParseException e) {
+            if (e == null) {
+
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytePic, 0, bytePic.length);
+            }
+        }
+    });
+
+
+ */
+
+
 /**
  public void setFeatureData(Context context, String className, String itemSelected,
  String[] valueToGet, String colName) {
@@ -202,8 +253,8 @@ public class photoFile extends ParseObject {
  **/
 
 
-
-
 }
+
+
 
 

@@ -32,8 +32,8 @@
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.parse.starter.Gallery"/>
       <point      
-        x = "500"      
-        y = "4240"/>
+        x = "3092"      
+        y = "2196"/>
     </statePointEntry>
     <statePointEntry>
       <state      
