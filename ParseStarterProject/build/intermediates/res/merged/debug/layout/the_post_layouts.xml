@@ -15,7 +15,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:layout_height="40dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -81,6 +81,7 @@
                     android:layout_width="170dp"
                     android:layout_height="150dp"
                     android:id="@+id/imageVote1"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"

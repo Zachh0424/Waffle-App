@@ -29,7 +29,7 @@
     <string name="userName">username</string>
     <string name="title_activity_auto_sign_in">AutoSignInActivity</string>
     <string name="title_user_page">user_page</string>
-    <string name="postDescription">users description</string>
+    <string name="postDescription">Write your post description here</string>
     <string name="title_PhotoGallery">photo_gallery</string>
 
 

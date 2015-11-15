@@ -54,12 +54,16 @@
             android:label="@string/title_user_page" >
         </activity>
 
-
+<!--
            <activity
                android:name=".Gallery"
                android:label="@string/title_PhotoGallery">
                </activity>
-
+-->
+        <activity
+            android:name=".CreatePost"
+            android:label="Waffle">
+        </activity>
 
 
 

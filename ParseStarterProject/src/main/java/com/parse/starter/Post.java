@@ -19,9 +19,9 @@ import com.parse.ParseUser;
 
 @ParseClassName("Post")
 
-public class Post extends ParseObject{
-    Bitmap userImage, img2;
-    byte[] img1, userImg;
+public class Post extends ParseObject {
+    Bitmap userImage;
+   // byte[] img1, userImg;
     int voteForimg1, voteForimg2;
     String userName;
     String userComment;
@@ -31,14 +31,14 @@ public class Post extends ParseObject{
     photoFile photo;
 
     ParseUser currUser = ParseUser.getCurrentUser();
-    private byte[] bytePic;
+    private byte[] bytePic, img1, img2;
 
-    public Post(){
+    public Post() {
 
     }
 
-    public Post(Bitmap user, Bitmap img1, Bitmap img2, int voteForimg1, byte[] arr,
-                int voteForimg2, String userName, String userComment, ImageView temp, ParseFile file){
+    public Post(Bitmap user, byte[] img1, byte[] img2, int voteForimg1, byte[] arr,
+                int voteForimg2, String userName, String userComment, ImageView temp, ParseFile file) {
         userImage = user;
         pic = file;
         this.img2 = img2;
@@ -50,50 +50,60 @@ public class Post extends ParseObject{
 
     }
 
-
-
-    public void setImages(Bitmap image, Bitmap image2){
+/*
+    public void setImages(Bitmap image, Bitmap image2) {
 
         img2 = image2;
     }
-
-    public void setImg1(byte[] image){
+*/
+    public void setImg1(byte[] image) {
         put("imageTest", image);
         img1 = image;
     }
 
-/**
-    public void updateVoteForimg1(){
-        voteForimg1 += 1;
+    public void setImg2(byte[] img2) {
+        this.img2 = img2;
     }
 
-    public byte[] getImg1() {
-        return img1;
+
+    /**
+     * public void updateVoteForimg1(){
+     * voteForimg1 += 1;
+     * }
+     * <p/>
+     * public byte[] getImg1() {
+     * return img1;
+     * }
+     * <p/>
+     * public Bitmap getImg2() {
+     * return img2;
+     * }
+     * <p/>
+     * public int getVoteForimg1() {
+     * return voteForimg1;
+     * }
+     **/
+
+    public void setComment(String comment) {
+        this.userComment = comment;
     }
 
-    public Bitmap getImg2() {
-        return img2;
-    }
 
-    public int getVoteForimg1() {
-        return voteForimg1;
-    }
-**/
     public String getUserName() {
         return userName;
     }
 
-   /* public Bitmap getUserPicture(){
-        return userImage;
-    }
-*/
-    public void setUserName(String userName){
+    /* public Bitmap getUserPicture(){
+         return userImage;
+     }
+ */
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public void setUserPicture(ParseFile pic){
-       // callProfilePic();
-        put("profilePicture", pic);
+    public void setUserPicture(ParseFile photo) {
+        // callProfilePic();
+        put("profilePicture", photo);
     }
 
     public void setUserPicBmp(byte[] pic) {
@@ -106,13 +116,13 @@ public class Post extends ParseObject{
 
     }
 
-    public ParseFile getUserPicture(){
+    public ParseFile getUserPicture() {
         ParseFile pic = (ParseFile) currUser.get("profilePicture");
         return pic;
 
     }
 
-    public Bitmap getUserPictureBmp(){
+    public Bitmap getUserPictureBmp() {
 
         return userImage;
 
@@ -121,6 +131,7 @@ public class Post extends ParseObject{
     public String getDisplayName() {
         return getString("displayName");
     }
+
     public void setDisplayName(String displayName) {
         put("displayName", displayName);
     }
@@ -128,6 +139,7 @@ public class Post extends ParseObject{
     public ParseUser getOwner() {
         return getParseUser("owner");
     }
+
     public void setOwner(ParseUser user) {
         put("owner", user);
     }
@@ -137,14 +149,13 @@ public class Post extends ParseObject{
         put("voteImage1", voteForimg1);
     }
 
-    public void putImage(Image img){
+    public void putImage(Image img) {
         put("Image", img);
     }
 
-    public int getVote(){
+    public int getVote() {
         return 1;
     }
-
 
 
     public Bitmap callProfilePic() {
@@ -164,4 +175,7 @@ public class Post extends ParseObject{
         return userImage;
     }
 
-    }
+
+
+}
+

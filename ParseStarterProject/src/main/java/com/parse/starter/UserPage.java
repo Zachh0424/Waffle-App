@@ -98,7 +98,7 @@ public class UserPage extends ActionBarActivity {
 
 
              callProfilePic();
-             userProfilePic.setImageBitmap(currPic);
+            userProfilePic.setImageBitmap(currPic);
             miniUserPic.setImageBitmap(currPic);
 
 
@@ -212,7 +212,7 @@ startActivity(new Intent(UserPage.this, Gallery.class));
 
         //set the pic
         photo.setUserPicture(file);
-        post.setUserPicture(file);
+      //  post.setUserPicture(file);
 
 
         //may need to check here for duplicates before saving again

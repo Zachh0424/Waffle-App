@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
         postUserPic = (ImageView) findViewById(R.id.userPicture);
         postUserPic.setImageBitmap(currPic);
 */
-      //  makeUserPic(proPic);
+
 
 
         un.setOnClickListener(new View.OnClickListener() {
@@ -294,11 +294,34 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        //Determine what action bar item user selected and perform action
+        if(id == R.id.action_new_post){
+            Intent intent2 = new Intent(MainActivity.this, CreatePost.class);
+            intent2.putExtra("userName", un.getText());
+            //Retrieve username to pass to next activity
+            String userName = un.getText().toString();
+           // intent2.putExtra(userName, userName);
+
+            //Start CreatePost activity
+            startActivity(intent2);
+
+            finish();
+            return true;
+        } else if(id == R.id.action_refresh){
+            return true;
+        } else if(id == R.id.action_logout){
+            Intent intent = new Intent(MainActivity.this,WelcomeActivity.class);
+
+            startActivity(intent);
+            finish();
+            return true;
+
+        } else if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+
     }
+
 }

@@ -6,6 +6,14 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.parse.starter.CreatePost"/>
+      <point      
+        x = "3148"      
+        y = "2008"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "com.parse.starter.WelcomeActivity"/>
       <point      
         x = "324"      
