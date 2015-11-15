@@ -57,12 +57,16 @@ public class Post extends ParseObject {
     }
 */
     public void setImg1(byte[] image) {
-        put("imageTest", image);
+        ParseFile leftFile = new ParseFile("leftPostPic", image);
+        put("LeftPic", leftFile);
+
         img1 = image;
     }
 
-    public void setImg2(byte[] img2) {
-        this.img2 = img2;
+    public void setImg2(byte[] image) {
+        ParseFile rightFile = new ParseFile("rightPostPic", image);
+        put("RightPic", rightFile);
+        img2 = image;
     }
 
 

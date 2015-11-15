@@ -411,8 +411,9 @@ int drawable abc_textfield_search_material 0x7f02003a
 int drawable ic_action_back 0x7f02003b
 int drawable ic_action_new 0x7f02003c
 int drawable ic_action_refresh 0x7f02003d
-int drawable notification_template_icon_bg 0x7f02003f
-int drawable user_icon 0x7f02003e
+int drawable ic_launcher_waffle_web 0x7f02003e
+int drawable notification_template_icon_bg 0x7f020040
+int drawable user_icon 0x7f02003f
 int id action0 0x7f0c006d
 int id action_bar 0x7f0c0041
 int id action_bar_activity_content 0x7f0c0000

@@ -1526,8 +1526,9 @@ containing a value of this type.
         public static final int ic_action_back=0x7f02003b;
         public static final int ic_action_new=0x7f02003c;
         public static final int ic_action_refresh=0x7f02003d;
-        public static final int notification_template_icon_bg=0x7f02003f;
-        public static final int user_icon=0x7f02003e;
+        public static final int ic_launcher_waffle_web=0x7f02003e;
+        public static final int notification_template_icon_bg=0x7f020040;
+        public static final int user_icon=0x7f02003f;
     }
     public static final class id {
         public static final int action0=0x7f0c006d;
