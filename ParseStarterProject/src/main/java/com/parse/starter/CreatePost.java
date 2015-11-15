@@ -36,6 +36,8 @@ public class CreatePost extends ActionBarActivity{
     TextView userPost;
     Boolean leftClicked = false;
     Boolean rightClicked = false;
+    Post newPost;
+    ParseFile leftFile, rightFile;
 
     //Define variables to handle comments
     EditText text;
@@ -44,14 +46,14 @@ public class CreatePost extends ActionBarActivity{
     //Define variables to handle buttons
  //   Button leftImage;
  //   Button rightImage;
-    Button submit;
+        Button submit;
 
     //Define variables to handle retrieving username from intent
     Bundle extras;
     String userName;
 
-    byte[] lImage;
-    byte[] rImage;
+  //  byte[] lImage;
+  //  byte[] rImage;
 
     //Define variables to handle picture selection
     private static final int SELECT_PICTURE = 1;
@@ -308,6 +310,7 @@ Below everything is null because it doesn't wait for image choice
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
 
+
                 if(leftClicked == true) {
 
                     Uri selectedImageUri = data.getData();
@@ -336,11 +339,12 @@ Below everything is null because it doesn't wait for image choice
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     // Compress image to lower quality scale 1 - 100
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                     lImage = stream.toByteArray();
+                   byte[]  lImage = stream.toByteArray();
 
 
                     // Create the ParseFile passing the byte[] and the name of this specific image file
-                //  ParseFile leftFile = new ParseFile("LeftPostPic", lImage);
+                  ParseFile leftFile = new ParseFile("LeftPostPic", lImage);
+                    leftPic(leftFile);
 
                     //set the pic
                   //  photo.setUserPicture(file);
@@ -379,15 +383,19 @@ Below everything is null because it doesn't wait for image choice
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     // Compress image to lower quality scale 1 - 100
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                   rImage = stream.toByteArray();
+                    byte[] rImage = stream.toByteArray();
+
 
 
                     // Create the ParseFile passing the byte[] and the name of this specific image file
-                   // ParseFile rightFile = new ParseFile("rightPostPic", rImage);
+
+
+                   ParseFile rightFile = new ParseFile("RightPostPic", rImage);
+                   rightPic(rightFile);
 
                     //set the pic
                     //  photo.setUserPicture(file);
-                    //  post.setUserPicture(file);
+                    // post.setUserPicture(file);
 
 
 
@@ -398,6 +406,19 @@ Below everything is null because it doesn't wait for image choice
             }
         }
     }
+
+
+    public ParseFile leftPic(ParseFile file){
+
+        leftFile = file;
+        return leftFile;
+    }
+public ParseFile rightPic(ParseFile file){
+    rightFile = file;
+    return rightFile;
+}
+
+
 
     public String getPath(Uri uri) {
         String[] projection = { MediaStore.Images.Media.DATA };
@@ -420,23 +441,29 @@ public void creatingPost(){
     //Retrieve comment about post
     comment = text.getText().toString();
 
+
+
     //Save post to Parse
-    Post post = new Post();
-    post.setOwner(user.getCurrentUser());
-    post.setDisplayName(user.getCurrentUser().getUsername());
-    post.setImg1(lImage);
-    post.setImg2(rImage);
-    post.setComment(comment);
+    newPost = new Post();
+    newPost.setOwner(user.getCurrentUser());
+    newPost.setDisplayName(user.getCurrentUser().getUsername());
+    newPost.setImg1(leftFile);
+    newPost.setImg2(rightFile);
+    newPost.setComment(comment);
     ParseACL acl = new ParseACL();
     acl.setPublicReadAccess(true);
     acl.setPublicWriteAccess(true);
-    post.setACL(acl);
+    newPost.setACL(acl);
 
-    post.saveInBackground();
+    newPost.saveInBackground();
+    leftFile.saveInBackground();
+    rightFile.saveInBackground();
+    user.saveInBackground();
+
 
     //Return to MainActivity
-    Intent intent = new Intent(CreatePost.this, MainActivity.class);
-    startActivity(intent);
+  //  Intent intent = new Intent(CreatePost.this, MainActivity.class);
+  //  startActivity(intent);
 
 }
 

@@ -26,22 +26,24 @@ public class Post extends ParseObject {
     String userName;
     String userComment;
     ImageView userPic;
-    ParseFile pic;
+    ParseFile rightFile,leftFile;
 
     photoFile photo;
 
     ParseUser currUser = ParseUser.getCurrentUser();
-    private byte[] bytePic, img1, img2;
+    public byte[] bytePic, image1, image2;
 
     public Post() {
 
     }
 
     public Post(Bitmap user, byte[] img1, byte[] img2, int voteForimg1, byte[] arr,
-                int voteForimg2, String userName, String userComment, ImageView temp, ParseFile file) {
+                int voteForimg2, String userName, String userComment, ImageView temp, ParseFile Rpic, ParseFile Lpic) {
         userImage = user;
-        pic = file;
-        this.img2 = img2;
+        rightFile = Rpic;
+        leftFile = Lpic;
+        image1= img1;
+        image2 = img2;
         this.voteForimg1 = voteForimg1;
         this.voteForimg2 = voteForimg2;
         this.userName = userName;
@@ -56,20 +58,41 @@ public class Post extends ParseObject {
         img2 = image2;
     }
 */
-    public void setImg1(byte[] image) {
-        ParseFile leftFile = new ParseFile("leftPostPic", image);
-        put("LeftPic", leftFile);
 
-        img1 = image;
+
+    public void setImg1(ParseFile img1) {
+
+
+        put("LeftPic", img1);
+
+        //image1 = img1;
     }
 
-    public void setImg2(byte[] image) {
-        ParseFile rightFile = new ParseFile("rightPostPic", image);
+    public void setImg2(ParseFile img2) {
+
+        put("RightPic", img2);
+       // image2 = img2;
+    }
+/**
+    public void setRightFile(ParseFile Rpic){
+        rightFile = Rpic;
         put("RightPic", rightFile);
-        img2 = image;
+
     }
+public ParseFile getRightFile(){
+   //ParseFile rightFile = (ParseFile) post.get("RightPic");
+    return rightFile;
+}
+    public void setLeftFile(ParseFile Lpic){
+        leftFile = Lpic;
+        put("LeftPic", leftFile);
+        //setUserPicBmp();
 
-
+    }
+    public ParseFile getLeftFile(){
+        //ParseFile leftFile = (ParseFile) post.get("LeftPic");
+        return leftFile;
+    }
     /**
      * public void updateVoteForimg1(){
      * voteForimg1 += 1;
