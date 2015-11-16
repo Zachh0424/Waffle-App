@@ -71,7 +71,9 @@ public class UserPage extends ActionBarActivity {
 
     //  private PhotoGallery gridAdapter;
 
+    String[] objectIds;
 
+    Post[] objectPosts;
 
 
     @Override
@@ -84,6 +86,10 @@ public class UserPage extends ActionBarActivity {
        //  gallery = (TextView) findViewById(R.id.photoGallery);
         lv = (ListView) findViewById(R.id.userListView);
         pd = new ProgressDialog(UserPage.this);
+
+        objectIds = null;
+        objectPosts = null;
+
 
         picQuery = new ParseQuery<>("photoFile");
         query = new ParseQuery<>("Post");
@@ -146,7 +152,7 @@ startActivity(new Intent(UserPage.this, Gallery.class));
 });
 
  **/
-
+/**
         query.whereEqualTo("displayName", currentUser.getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -164,8 +170,38 @@ startActivity(new Intent(UserPage.this, Gallery.class));
             }
         });
 
+**/
+        queryPosts();
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
+    }
+
+
+
+    public void queryPosts(){
+        query.setLimit(20);
+        //query.whereEqualTo("displayName", "day");
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.d("number of objects", objects.size() + "");
+                    objectPosts = new Post[objects.size()];
+                    //Post[] pst = new Post[objects.size()];
+                    for (int i = 0; i < objects.size(); i++) {
+                        Log.d("ParseObject:", objects.get(i).toString());
+                        //pst[i] = (Post) objects.get(i);
+                        objectPosts[i] = (Post) objects.get(i);
+                    }
+                    sendToAdapter(objectPosts);
+                    lv.setAdapter(listAdapter);
+                }
+            }
+        });
+
+
 
     }
 
@@ -247,7 +283,8 @@ public Bitmap callProfilePic() {
 }
 
 
-    public void sendToAdpater(Post[] array){
+
+    public void sendToAdapter(Post[] array){
 
         pd = ProgressDialog.show(this, "dialog title",
                 "dialog message", true);
@@ -257,6 +294,7 @@ public Bitmap callProfilePic() {
         listAdapter = new CustomAdapter(this, array);
         pd.dismiss();
     }
+
 
     public void addToListArray(List<ParseObject> lst){
         list.clear();

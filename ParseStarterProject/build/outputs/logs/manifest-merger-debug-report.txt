@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:10:1-73:12
+ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:10:1-76:12
 	package
 		ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:11:5-32
 		INJECTED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml
@@ -22,7 +22,7 @@ ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\Andr
 	android:name
 		ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:14:22-76
 application
-ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:16:5-71:19
+ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:16:5-74:19
 MERGED from [com.android.support:appcompat-v7:22.2.0] C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:22.2.0] C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\AndroidManifest.xml:22:5-20
 	android:label
@@ -93,6 +93,12 @@ ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\Andr
 		ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:65:13-35
 	android:name
 		ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:64:13-39
+activity#com.parse.starter.DecisionActivity
+ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:68:9-71:20
+	android:label
+		ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:70:13-60
+	android:name
+		ADDED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml:69:13-45
 uses-sdk
 INJECTED from C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:22.2.0] C:\Users\Zachary\Desktop\Waffle-App\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\AndroidManifest.xml:20:5-43

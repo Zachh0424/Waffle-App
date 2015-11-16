@@ -31,7 +31,7 @@
     <string name="title_user_page">user_page</string>
     <string name="postDescription">Write your post description here</string>
     <string name="title_PhotoGallery">photo_gallery</string>
-
+    <string name="title_activity_decision">DecisionActivity</string>
 
     <item name="action_main" type="id" />
 

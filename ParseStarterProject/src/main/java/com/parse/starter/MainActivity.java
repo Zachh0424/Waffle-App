@@ -10,17 +10,20 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -82,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
         callProfilePic();
         userPic.setImageBitmap(currPic);
         lv = (ListView) findViewById(R.id.postListView);
-        pd = new ProgressDialog(MainActivity.this);
+
 
         objectIds = null;
         objectPosts = null;
@@ -96,6 +99,44 @@ public class MainActivity extends ActionBarActivity {
         postUserPic.setImageBitmap(currPic);
 */
 
+
+/**
+        ParseUser user = new ParseUser();
+        //makePost();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_icon);
+
+
+        //Convert it to byte
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        //compress the image
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+        byte[] image2 = stream.toByteArray();
+        image = image2;
+
+        Post post = new Post();
+        post.setOwner(user.getCurrentUser());
+        post.setUserName(user.getCurrentUser().toString());
+        post.setDisplayName(user.getCurrentUser().getUsername());
+        //post.setVote1(2);
+        //post.setImg1(image);
+        //post.setImg2(image);
+        post.setImg3(image);
+        //post.put("Image1", file);
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+
+        ParseFile file = new ParseFile("image", image2);
+        file.saveInBackground();
+        post.putImage(file);
+        post.setACL(acl);
+        Log.d("post: ", post.getUserName() + "");
+        //post.saveInBackground();
+
+
+**/
 
 
         un.setOnClickListener(new View.OnClickListener() {
@@ -143,26 +184,23 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-
-
-
-
-
-        query.findInBackground(new FindCallback<ParseObject>() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    Log.d("number of objects", objects.size() + "");
-                    Post[] pst = new Post[objects.size()];
-                    for (int i = 0; i < objects.size(); i++) {
-                        Log.d("ParseObject:", objects.get(i).toString());
-                        pst[i] = (Post) objects.get(i);
-                    }
-                    sendToAdpater(pst);
-                    lv.setAdapter(listAdapter);
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Post post1 = lv.getItemAtPosition(position);
+                Intent intent = new Intent(MainActivity.this, DecisionActivity.class);
+                intent.putExtra("PostObject",(Post) lv.getItemAtPosition(position));
+                intent.putExtra("objectId", ((Post) lv.getItemAtPosition(position)).getObjectId().toString());
+                Toast.makeText(MainActivity.this, ((Post) lv.getItemAtPosition(position)).getObjectId().toString(), Toast.LENGTH_SHORT).show();
+                Log.d("object being Passed:", lv.getItemAtPosition(position).toString());
+                startActivity(intent);
             }
         });
+
+        pd = new ProgressDialog(MainActivity.this);
+
+
+
 
 /**
         ParseUser user = new ParseUser();
@@ -194,20 +232,54 @@ public class MainActivity extends ActionBarActivity {
         post.saveInBackground();
 **/
 
+       queryPosts();
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
 
-    public void sendToAdpater(Post[] array){
+
+
+    public void queryPosts(){
+        query.setLimit(20);
+        //query.whereEqualTo("displayName", "day");
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                   Log.d("number of objects", objects.size() + "");
+                    objectPosts = new Post[objects.size()];
+                  //  Post[] pst = new Post[objects.size()];
+                    for (int i = 0; i < objects.size(); i++) {
+                        Log.d("ParseObject:", objects.get(i).toString());
+                    //    pst[i] = (Post) objects.get(i);
+                        objectPosts[i] = (Post) objects.get(i);
+                   }
+                    sendToAdapter(objectPosts);
+                   lv.setAdapter(listAdapter);
+                }
+           }
+        });
+
+
+
+    }
+
+
+
+    public void sendToAdapter(Post[] array){
 
         pd = ProgressDialog.show(this, "dialog title",
                 "dialog message", true);
-        for (int i = 0; i < array.length; i++){
+       for (int i = 0; i < array.length; i++){
             Log.d("Object:", array[i].toString());
         }
         listAdapter = new CustomAdapter(this, array);
-        pd.dismiss();
+       pd.dismiss();
     }
 
+
+    /**
     public void addToListArray(List<ParseObject> lst){
         list.clear();
         for (int i = 0; i < lst.size(); i++){
@@ -217,6 +289,7 @@ public class MainActivity extends ActionBarActivity {
         }
         txt.setText("Here");
     }
+**/
 
     public void makePost(){
         //THis is to locate the image but it will be replaced by going into the
@@ -234,7 +307,7 @@ public class MainActivity extends ActionBarActivity {
         //file.saveInBackground();
     }
 
-
+/**
     public void getPosts(){
         adapter.clear();
 
@@ -250,7 +323,7 @@ public class MainActivity extends ActionBarActivity {
 
         //pd.dismiss();
     }
-
+**/
 
 
     public Bitmap callProfilePic() {
@@ -322,6 +395,14 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        un = null;
+        lv = null;
     }
 
 }

@@ -148,15 +148,11 @@ public class photoFile extends ParseObject {
     public void setUserPicture(ParseFile photo){
         put("profilePicture", photo);
         currUser.put("profilePicture", photo);
-        // post.setUserPicture(photo);
+
     }
 
     public ParseFile getUserPicture(){
-      /*
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("photoFile");
-        query.whereEqualTo("owner", currUser);
-        query.include("profilePicture");
- */
+
         ParseFile photo = (ParseFile) currUser.get("profilePicture");
 
         return photo;

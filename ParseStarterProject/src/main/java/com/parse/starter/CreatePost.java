@@ -1,3 +1,4 @@
+
 package com.parse.starter;
 
 import android.database.Cursor;
@@ -6,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,9 +32,9 @@ import java.io.File;
 public class CreatePost extends ActionBarActivity{
 
     ParseUser user = new ParseUser();
-    Bitmap currPic;
+
     ImageView postUserPic;
-    photoFile photo;
+
     TextView userPost;
     Boolean leftClicked = false;
     Boolean rightClicked = false;
@@ -43,17 +45,17 @@ public class CreatePost extends ActionBarActivity{
     EditText text;
     String comment;
 
+    boolean description = false;
+
     //Define variables to handle buttons
- //   Button leftImage;
- //   Button rightImage;
-        Button submit;
+    Button submit;
 
     //Define variables to handle retrieving username from intent
     Bundle extras;
     String userName;
 
-  //  byte[] lImage;
-  //  byte[] rImage;
+    byte[] lImage;
+    byte[] rImage;
 
     //Define variables to handle picture selection
     private static final int SELECT_PICTURE = 1;
@@ -64,6 +66,7 @@ public class CreatePost extends ActionBarActivity{
     ImageView leftImageView;
     ImageView rightImageView;
 
+
     //Monitors if both images have been uploaded
     int i = 0;
 
@@ -73,11 +76,10 @@ public class CreatePost extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post2);
         postUserPic = (ImageView) findViewById(R.id.userPicture);
-        //  callProfilePic();
-        //  postUserPic.setImageBitmap(currPic);
+
         userPost = (TextView) findViewById(R.id.userName2);
         userPost.setText(getIntent().getStringExtra("userName"));
-
+        newPost = new Post();
         //Accept intent
         extras = getIntent().getExtras();
         if (extras != null) {
@@ -89,10 +91,6 @@ public class CreatePost extends ActionBarActivity{
         rightImageView = (ImageView) findViewById(R.id.imageVote2);
         submit = (Button) findViewById(R.id.submitBtn);
 
-
-
-    //    leftImageView = (ImageView) findViewById(R.id.imageVote1);
-    //    rightImageView = (ImageView) findViewById(R.id.imageVote2);
 
 
         //set onclick listener for userProfile pic
@@ -108,22 +106,7 @@ public class CreatePost extends ActionBarActivity{
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
                 leftClicked = true;
-/*
-Below everything is null because it doesn't wait for image choice
- */
-                /**
-                //Bitmap selected image, hide button, and display image in imageView
-                leftImg = imagePicked;
-                File imageFile = new File(leftImg);
-                Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                leftImageView.setImageBitmap(bitmap);
-                leftImageView.setVisibility(View.GONE);
 
-                //Compress image and put into byte array
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-                lImage = stream.toByteArray();
-**/
             }
 
         });
@@ -142,23 +125,6 @@ Below everything is null because it doesn't wait for image choice
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
                 rightClicked = true;
 
-/*
-Below everything is null because it doesn't wait for image choice
- */
-                /**
-                //Bitmap selected image, hide button, and display image in imageView
-                rightImg = imagePicked;
-                File imageFile = new File(rightImg);
-                Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-               rightImageView.setImageBitmap(bitmap);
-               rightImageView.setVisibility(View.GONE);
-
-                //Compress image and put into byte array
-          //      ByteArrayOutputStream stream = new ByteArrayOutputStream();
-           //     bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-            //    rImage = stream.toByteArray();
-
-                 **/
             }
 
 
@@ -173,138 +139,26 @@ Below everything is null because it doesn't wait for image choice
                 if (i == 2) {
 
                     creatingPost();
-                 /**
-                    //Retrieve comment about post
-                    comment = text.getText().toString();
 
-                    //Save post to Parse
-                    Post post = new Post();
-                    post.setOwner(user.getCurrentUser());
-                    post.setDisplayName(user.getCurrentUser().getUsername());
-                    post.setImg1(lImage);
-                    post.setImg2(rImage);
-                    post.setComment(comment);
-                    ParseACL acl = new ParseACL();
-                    acl.setPublicReadAccess(true);
-                    acl.setPublicWriteAccess(true);
-                    post.setACL(acl);
-                    post.saveInBackground();
-
-                    //Return to MainActivity
-                    Intent intent = new Intent(CreatePost.this, MainActivity.class);
-                    startActivity(intent);
-**/
                 } else {  //Notify users that two images have to be uploaded to submit post
                     Toast.makeText(getApplicationContext(), "Please Upload Two Images",
                             Toast.LENGTH_LONG).show();
 
                 }
 
-                }
+            }
 
-            });
-
-
-            //set onCLick listeners for each button
-            //  leftImageView.setOnClickListener(handler1);
-            //   rightImageView.setOnClickListener(handler2);
-        //   submit.setOnClickListener(handler3);
-
-
-/**
- //onClick listener for upload left image button
- leftImageView.setOnClickListener(new View.OnClickListener() {
-
- public void onClick(View v){
- i++;
-
- //User selects image
- Intent intent = new Intent();
- intent.setType("image/*");
- intent.setAction(Intent.ACTION_GET_CONTENT);
- startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-
- //Bitmap selected image, hide button, and display image in imageView
- leftImg = imagePicked;
- File imageFile = new File(leftImg);
- Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
- leftImageView.setImageBitmap(bitmap);
- leftImageView.setVisibility(View.GONE);
-
- //Compress image and put into byte array
- ByteArrayOutputStream stream = new ByteArrayOutputStream();
- bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
- lImage = stream.toByteArray();
-
- }
- };
-
- //onClick listener for upload right image button
- View.OnClickListener handler2 = new View.OnClickListener(){
- public void onClick(View v){
- i++;
-
- //User selects image
- Intent intent = new Intent();
- intent.setType("image/*");
- intent.setAction(Intent.ACTION_GET_CONTENT);
- startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-
- //Bitmap selected image, hide button, and display image in imageView
- rightImg = imagePicked;
- File imageFile = new File(rightImg);
- Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
- rightImageView.setImageBitmap(bitmap);
- rightImageView.setVisibility(View.GONE);
-
- //Compress image and put into byte array
- ByteArrayOutputStream stream = new ByteArrayOutputStream();
- bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
- rImage = stream.toByteArray();
- }
- };
-
-
-
-
- //onClick listener for submit button
- View.OnClickListener handler3 = new View.OnClickListener(){
- public void onClick(View v){
-
- //Both images have been uploaded, submit post and return to main activity
- if(i == 2){
-
- //Retrieve comment about post
- comment = text.getText().toString();
-
- //Save post to Parse
- Post post = new Post();
- post.setOwner(user.getCurrentUser());
- post.setDisplayName(user.getCurrentUser().getUsername());
- post.setImg1(lImage);
- post.setImg2(rImage);
- post.setComment(comment);
- ParseACL acl = new ParseACL();
- acl.setPublicReadAccess(true);
- acl.setPublicWriteAccess(true);
- post.setACL(acl);
- post.saveInBackground();
-
- //Return to MainActivity
- Intent intent = new Intent(CreatePost.this,MainActivity.class);
- startActivity(intent);
-
- } else {  //Notify users that two images have to be uploaded to submit post
- Toast.makeText(getApplicationContext(), "Please Upload Two Images",
- Toast.LENGTH_LONG).show();
- }
- }
- };
- **/
-
+        });
 
 
     }
+
+    public boolean descriptionIsThere() {
+
+        return description;
+    }
+
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -339,23 +193,21 @@ Below everything is null because it doesn't wait for image choice
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     // Compress image to lower quality scale 1 - 100
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                   byte[]  lImage = stream.toByteArray();
+                    byte[] arr = stream.toByteArray();
+                    lImage = arr;
 
 
                     // Create the ParseFile passing the byte[] and the name of this specific image file
-                  ParseFile leftFile = new ParseFile("LeftPostPic", lImage);
-                    leftPic(leftFile);
+                    leftFile = new ParseFile("LeftPostPic", lImage);
+                    leftFile.saveInBackground();
 
-                    //set the pic
-                  //  photo.setUserPicture(file);
-                    //  post.setUserPicture(file);
 
 
 
                 }
 
 
-              else if(rightClicked == true) {
+                else if(rightClicked == true) {
 
                     Uri selectedImageUri = data.getData();
 
@@ -383,20 +235,17 @@ Below everything is null because it doesn't wait for image choice
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     // Compress image to lower quality scale 1 - 100
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] rImage = stream.toByteArray();
+                    byte[] arr2 = stream.toByteArray();
+                    rImage = arr2;
 
 
 
                     // Create the ParseFile passing the byte[] and the name of this specific image file
 
 
-                   ParseFile rightFile = new ParseFile("RightPostPic", rImage);
-                   rightPic(rightFile);
+                    rightFile = new ParseFile("RightPostPic", rImage);
 
-                    //set the pic
-                    //  photo.setUserPicture(file);
-                    // post.setUserPicture(file);
-
+                    rightFile.saveInBackground();
 
 
                 }
@@ -413,10 +262,10 @@ Below everything is null because it doesn't wait for image choice
         leftFile = file;
         return leftFile;
     }
-public ParseFile rightPic(ParseFile file){
-    rightFile = file;
-    return rightFile;
-}
+    public ParseFile rightPic(ParseFile file){
+        rightFile = file;
+        return rightFile;
+    }
 
 
 
@@ -436,60 +285,34 @@ public ParseFile rightPic(ParseFile file){
     }
 
 
-public void creatingPost(){
+    public void creatingPost(){
 
-    //Retrieve comment about post
-    comment = text.getText().toString();
-
-
-
-    //Save post to Parse
-    newPost = new Post();
-    newPost.setOwner(user.getCurrentUser());
-    newPost.setDisplayName(user.getCurrentUser().getUsername());
-    newPost.setImg1(leftFile);
-    newPost.setImg2(rightFile);
-    newPost.setComment(comment);
-    ParseACL acl = new ParseACL();
-    acl.setPublicReadAccess(true);
-    acl.setPublicWriteAccess(true);
-    newPost.setACL(acl);
-
-    newPost.saveInBackground();
-    leftFile.saveInBackground();
-    rightFile.saveInBackground();
-    user.saveInBackground();
+        //Retrieve comment about post
+        comment = text.getText().toString();
 
 
-    //Return to MainActivity
-  //  Intent intent = new Intent(CreatePost.this, MainActivity.class);
-  //  startActivity(intent);
+        //Save post to Parse
 
-}
+        newPost.setOwner(user.getCurrentUser());
+        newPost.setDisplayName(user.getCurrentUser().getUsername());
+        newPost.setImg1(leftFile);
+        newPost.setImg2(rightFile);
+        newPost.setVote1(0);
+        newPost.setVote2(0);
+        newPost.setComment(comment);
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+        newPost.setACL(acl);
 
-
-    public Bitmap callProfilePic() {
-        photo = new photoFile();
-        ParseFile file = photo.getUserPicture();
-        if(file != null) {
-            byte[] userPic = new byte[0];
-            try {
-                userPic = file.getData();
-                photo.setUserPicBmp(userPic);
-                currPic = photo.getUserPicBmp();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-                   /*
-                    Intent intent = new Intent(this, .class);
-                    intent.putExtra("profilePicture", data);
-                    startActivity(intent);
-                   */
+        newPost.saveInBackground();
 
 
-        return currPic;
+
+        //Return to MainActivity
+        Intent intent = new Intent(CreatePost.this, MainActivity.class);
+        startActivity(intent);
+
     }
 
 
