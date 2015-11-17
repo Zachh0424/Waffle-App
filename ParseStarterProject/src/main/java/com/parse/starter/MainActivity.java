@@ -101,42 +101,42 @@ public class MainActivity extends ActionBarActivity {
 
 
 /**
-        ParseUser user = new ParseUser();
-        //makePost();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_icon);
+ ParseUser user = new ParseUser();
+ //makePost();
+ Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_icon);
 
 
-        //Convert it to byte
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+ //Convert it to byte
+ ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        //compress the image
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+ //compress the image
+ bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 
-        byte[] image2 = stream.toByteArray();
-        image = image2;
+ byte[] image2 = stream.toByteArray();
+ image = image2;
 
-        Post post = new Post();
-        post.setOwner(user.getCurrentUser());
-        post.setUserName(user.getCurrentUser().toString());
-        post.setDisplayName(user.getCurrentUser().getUsername());
-        //post.setVote1(2);
-        //post.setImg1(image);
-        //post.setImg2(image);
-        post.setImg3(image);
-        //post.put("Image1", file);
-        ParseACL acl = new ParseACL();
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(true);
+ Post post = new Post();
+ post.setOwner(user.getCurrentUser());
+ post.setUserName(user.getCurrentUser().toString());
+ post.setDisplayName(user.getCurrentUser().getUsername());
+ //post.setVote1(2);
+ //post.setImg1(image);
+ //post.setImg2(image);
+ post.setImg3(image);
+ //post.put("Image1", file);
+ ParseACL acl = new ParseACL();
+ acl.setPublicReadAccess(true);
+ acl.setPublicWriteAccess(true);
 
-        ParseFile file = new ParseFile("image", image2);
-        file.saveInBackground();
-        post.putImage(file);
-        post.setACL(acl);
-        Log.d("post: ", post.getUserName() + "");
-        //post.saveInBackground();
+ ParseFile file = new ParseFile("image", image2);
+ file.saveInBackground();
+ post.putImage(file);
+ post.setACL(acl);
+ Log.d("post: ", post.getUserName() + "");
+ //post.saveInBackground();
 
 
-**/
+ **/
 
 
         un.setOnClickListener(new View.OnClickListener() {
@@ -163,24 +163,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-/*
-        query.getInBackground("", new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    // object will be your game score
-                } else {
-                    // something went wrong
-                }
-            }
-        });
-*/
-    //    query.whereEqualTo("profilePic", currUser);
-     //   userPic.setImageDrawable();
 
-      //  Bitmap bmp = BitmapFactory.decode//ByteArray(byteArray, 0, byteArray.length);
-     //   ImageView image = (ImageView) findViewById(R.id.imageView1);
-
-        //image.setImageBitmap(bmp);
 
 
 
@@ -191,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, DecisionActivity.class);
                 intent.putExtra("PostObject",(Post) lv.getItemAtPosition(position));
                 intent.putExtra("objectId", ((Post) lv.getItemAtPosition(position)).getObjectId().toString());
-                Toast.makeText(MainActivity.this, ((Post) lv.getItemAtPosition(position)).getObjectId().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, ((Post) lv.getItemAtPosition(position)).getObjectId().toString(),Toast.LENGTH_SHORT).show();
                 Log.d("object being Passed:", lv.getItemAtPosition(position).toString());
                 startActivity(intent);
             }
@@ -202,37 +185,8 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-/**
-        ParseUser user = new ParseUser();
 
-       // makePost();
-        Post post = new Post();
-        post.setOwner(user.getCurrentUser());
-        post.setUserName(user.getCurrentUser().toString());
-        post.setDisplayName(user.getCurrentUser().getUsername());
-       userimg = post.getUserPicture();
-        //converting Byte[] to imageView
-        Bitmap bmp = BitmapFactory.decodeByteArray(userimg, 0, userimg.length);
-        userPic.setImageBitmap(bmp);
-     //   postUserPic.setImageBitmap(bmp);
-
-      //  userPic = post.getUserPicture();
-     //   post.getUserPicture();
-
-/**        post.setVote1(2);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable
-                .user_icon);
-        post.setImg1(image);
-//      post.put("Image1", file);
-        ParseACL acl = new ParseACL();
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(true);
-
-        post.setACL(acl);
-        post.saveInBackground();
-**/
-
-       queryPosts();
+        queryPosts();
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
@@ -247,18 +201,18 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                   Log.d("number of objects", objects.size() + "");
+                    Log.d("number of objects", objects.size() + "");
                     objectPosts = new Post[objects.size()];
-                  //  Post[] pst = new Post[objects.size()];
+                    //  Post[] pst = new Post[objects.size()];
                     for (int i = 0; i < objects.size(); i++) {
                         Log.d("ParseObject:", objects.get(i).toString());
-                    //    pst[i] = (Post) objects.get(i);
+                        //    pst[i] = (Post) objects.get(i);
                         objectPosts[i] = (Post) objects.get(i);
-                   }
+                    }
                     sendToAdapter(objectPosts);
-                   lv.setAdapter(listAdapter);
+                    lv.setAdapter(listAdapter);
                 }
-           }
+            }
         });
 
 
@@ -271,25 +225,14 @@ public class MainActivity extends ActionBarActivity {
 
         pd = ProgressDialog.show(this, "dialog title",
                 "dialog message", true);
-       for (int i = 0; i < array.length; i++){
+        for (int i = 0; i < array.length; i++){
             Log.d("Object:", array[i].toString());
         }
         listAdapter = new CustomAdapter(this, array);
-       pd.dismiss();
+        pd.dismiss();
     }
 
 
-    /**
-    public void addToListArray(List<ParseObject> lst){
-        list.clear();
-        for (int i = 0; i < lst.size(); i++){
-
-            list.add((Post) lst.get(i));
-            Log.d("Adding to Array list", "Added " + i +" "+((Post) lst.get(i)).getUserName());
-        }
-        txt.setText("Here");
-    }
-**/
 
     public void makePost(){
         //THis is to locate the image but it will be replaced by going into the
@@ -307,23 +250,7 @@ public class MainActivity extends ActionBarActivity {
         //file.saveInBackground();
     }
 
-/**
-    public void getPosts(){
-        adapter.clear();
 
-        Log.d("Clearing Adapter", "Success");
-        for (int i = 0; i < list.size(); i++) {
-            Log.d("Adding to adapter", "success");
-            adapter.add(list.get(i).toString());
-
-        }
-        adapter.notifyDataSetChanged();
-
-        lv.setAdapter(adapter);
-
-        //pd.dismiss();
-    }
-**/
 
 
     public Bitmap callProfilePic() {
@@ -373,7 +300,7 @@ public class MainActivity extends ActionBarActivity {
             intent2.putExtra("userName", un.getText());
             //Retrieve username to pass to next activity
             String userName = un.getText().toString();
-           // intent2.putExtra(userName, userName);
+            // intent2.putExtra(userName, userName);
 
             //Start CreatePost activity
             startActivity(intent2);

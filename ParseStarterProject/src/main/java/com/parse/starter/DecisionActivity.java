@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,13 +27,15 @@ import java.util.List;
 
 public class DecisionActivity extends AppCompatActivity {
     TextView userName;
-    TextView vote1Num, vote2Num;
+    TextView vote1Num, vote2Num, description;
+    EditText comment;
+    Button send;
 
     Post post;
     String objectId;
     ParseQuery<ParseObject> query;
-    ImageView img1, img2, iconImg;
-    String description;
+    ImageView img1, img2, posterPic;
+
     int vote1, vote2;
     Bitmap bitmap, bitmap2;
     ByteArrayOutputStream stream;
@@ -46,6 +50,11 @@ public class DecisionActivity extends AppCompatActivity {
         vote2Num = (TextView) findViewById(R.id.voteNumber2);
         img1 = (ImageView) findViewById(R.id.imageVote1);
         img2 = (ImageView) findViewById(R.id.imageVote2);
+        posterPic = (ImageView) findViewById(R.id.userPicture);
+        comment = (EditText) findViewById(R.id.comment);
+        description = (TextView) findViewById(R.id.userDescription);
+        send = (Button) findViewById(R.id.sendComment);
+
 
         //initalize other fields
         query = new ParseQuery<ParseObject>("Post");
@@ -68,51 +77,51 @@ public class DecisionActivity extends AppCompatActivity {
                 } else {
                     post = (Post) object;
                     userName.setText(post.getDisplayName() + "");
-                    vote1Num.setText(post.get("voteImage1")+"");
-                    vote2Num.setText(post.get("voteImage2")+"");
+                    vote1Num.setText(post.get("voteImage1") + "");
+                    vote2Num.setText(post.get("voteImage2") + "");
+
                     //Log.d("username", post.getUserName());
                     //arr = (byte[]) post.get("imageTest");
                     //arr = post.getImg2();
-
-                  ParseFile rightFile = (ParseFile) post.get("rightImage");
+                    ParseFile rightFile = (ParseFile) post.get("rightImage");
                     ParseFile leftFile = (ParseFile) post.get("leftImage");
 
-                    try {
-                        arr2 = rightFile.getData();
-                        arr = leftFile.getData();
+                    if(rightFile != null && leftFile != null) {
+                        try {
+                            arr2 = rightFile.getData();
+                            arr = leftFile.getData();
 
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        if (arr2 != null) {
+                            //  Log.d("arr2", arr2 + "");
+                            stream = new ByteArrayOutputStream();
+                            //bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+                            //bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            //img1.setImageBitmap(bitmap);
+                            //bitmap = null;
+
+                            bitmap2 = BitmapFactory.decodeByteArray(arr2, 0, arr2.length);
+                            bitmap2.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            img2.setImageBitmap(bitmap2);
+                            bitmap = null;
+                        }
+                        if (arr != null) {
+                            //  Log.d("arr2", arr2 + "");
+                            stream = new ByteArrayOutputStream();
+                            //bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+                            //bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            //img1.setImageBitmap(bitmap);
+                            //bitmap = null;
+
+                            bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            img1.setImageBitmap(bitmap);
+                            bitmap = null;
+                        }
                     }
-
-                    if (arr2 != null) {
-                        Log.d("arr2", arr2 + "");
-                        stream = new ByteArrayOutputStream();
-                        //bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-                        //bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        //img1.setImageBitmap(bitmap);
-                        //bitmap = null;
-
-                        bitmap2 = BitmapFactory.decodeByteArray(arr2, 0, arr2.length);
-                        bitmap2.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        img2.setImageBitmap(bitmap2);
-                        bitmap = null;
-                    }
-                 if (arr != null) {
-                      //  Log.d("arr2", arr2 + "");
-                        stream = new ByteArrayOutputStream();
-                        //bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-                        //bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        //img1.setImageBitmap(bitmap);
-                        //bitmap = null;
-
-                        bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        img1.setImageBitmap(bitmap);
-                        bitmap = null;
-                    }
-
-
                 }
             }
         });

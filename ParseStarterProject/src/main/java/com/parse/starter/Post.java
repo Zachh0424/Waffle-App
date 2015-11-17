@@ -26,7 +26,7 @@ public class Post extends ParseObject implements Serializable{
     int voteForimg1, voteForimg2;
     String userName;
     String userComment;
-
+    ParseFile postPic;
     public Post(){
 
     }
@@ -43,8 +43,14 @@ public class Post extends ParseObject implements Serializable{
 
     }
 
+    /**
+public ParseFile getPostPic(){
+  postPic = ;
 
 
+    return postPic;
+}
+**/
     public void setImg1(ParseFile image){
         put("leftImage", image);
     }
@@ -61,6 +67,12 @@ public class Post extends ParseObject implements Serializable{
         put("comment",comment);
     }
 
+/**
+    public void setUserPicture(ParseFile photo){
+        put("profilePicture", photo);
+
+    }
+ **/
 
     public void updateVoteForimg1(){
         voteForimg1 += 1;

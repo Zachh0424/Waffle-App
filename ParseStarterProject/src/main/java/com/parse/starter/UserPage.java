@@ -181,7 +181,7 @@ startActivity(new Intent(UserPage.this, Gallery.class));
 
     public void queryPosts(){
         query.setLimit(20);
-        //query.whereEqualTo("displayName", "day");
+        query.whereEqualTo("displayName", currentUser.getUsername());
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
