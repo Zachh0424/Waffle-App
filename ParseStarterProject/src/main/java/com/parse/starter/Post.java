@@ -1,6 +1,7 @@
 package com.parse.starter;
 
         import android.graphics.Bitmap;
+        import android.graphics.BitmapFactory;
         import android.graphics.drawable.Drawable;
         import android.media.Image;
         import android.os.Parcel;
@@ -27,14 +28,16 @@ public class Post extends ParseObject implements Serializable{
     String userName;
     String userComment;
     ParseFile postPic;
+    Post post;
+    byte[] bytePic;
     public Post(){
 
     }
 
     public Post(Bitmap user, Bitmap img1, Bitmap img2, int voteForimg1,
-                int voteForimg2, String userName, String userComment){
+                int voteForimg2, String userName, String userComment, ParseFile pic){
         this.userImage = user;
-
+        postPic = pic;
 
         this.voteForimg1 = voteForimg1;
         this.voteForimg2 = voteForimg2;
@@ -67,12 +70,35 @@ public ParseFile getPostPic(){
         put("comment",comment);
     }
 
-/**
+
     public void setUserPicture(ParseFile photo){
+
         put("profilePicture", photo);
 
     }
- **/
+
+    /*
+public ParseFile getUserPicture(){
+    ParseFile postPic = (ParseFile) post.getOwner().get("profilePicture");
+
+    return postPic;
+
+}
+*/
+
+    public void setUserPicBmp(byte[] pic) {
+        bytePic = pic;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        userImage = BitmapFactory.decodeByteArray(bytePic, 0, bytePic.length, options); //Convert bytearray to bitmap
+       // bytePic = null;
+
+
+    }
+
+    public Bitmap getUserPicBmp(){
+        return userImage;
+    }
 
     public void updateVoteForimg1(){
         voteForimg1 += 1;

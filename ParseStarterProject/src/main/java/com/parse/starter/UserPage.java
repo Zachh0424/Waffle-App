@@ -295,7 +295,7 @@ public Bitmap callProfilePic() {
         pd.dismiss();
     }
 
-
+/**
     public void addToListArray(List<ParseObject> lst){
         list.clear();
         for (int i = 0; i < lst.size(); i++){
@@ -340,7 +340,7 @@ public Bitmap callProfilePic() {
         //pd.dismiss();
     }
 
-
+**/
 
 
 /*

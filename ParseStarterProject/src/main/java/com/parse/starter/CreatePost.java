@@ -40,6 +40,8 @@ public class CreatePost extends ActionBarActivity{
     Boolean rightClicked = false;
     Post newPost;
     ParseFile leftFile, rightFile;
+    photoFile photo;
+    Bitmap currPic;
 
     //Define variables to handle comments
     EditText text;
@@ -76,10 +78,12 @@ public class CreatePost extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post2);
         postUserPic = (ImageView) findViewById(R.id.userPicture);
-
+       // callProfilePic();
+      //  postUserPic.setImageBitmap(currPic);
         userPost = (TextView) findViewById(R.id.userName2);
         userPost.setText(getIntent().getStringExtra("userName"));
         newPost = new Post();
+        //photo = new photoFile();
         //Accept intent
         extras = getIntent().getExtras();
         if (extras != null) {
@@ -287,6 +291,9 @@ public class CreatePost extends ActionBarActivity{
 
     public void creatingPost(){
 
+        photo = new photoFile();
+        ParseFile postPic = photo.getUserPicture();
+
         //Retrieve comment about post
         comment = text.getText().toString();
 
@@ -300,6 +307,7 @@ public class CreatePost extends ActionBarActivity{
         newPost.setVote1(0);
         newPost.setVote2(0);
         newPost.setComment(comment);
+        newPost.setUserPicture(postPic);
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(true);
@@ -310,10 +318,38 @@ public class CreatePost extends ActionBarActivity{
 
 
         //Return to MainActivity
-        Intent intent = new Intent(CreatePost.this, MainActivity.class);
-        startActivity(intent);
+   //     Intent intent = new Intent(CreatePost.this, MainActivity.class);
+   //     startActivity(intent);
 
     }
+
+
+    public Bitmap callProfilePic() {
+        photo = new photoFile();
+        ParseFile file = photo.getUserPicture();
+        if(file != null) {
+            byte[] userPic = new byte[0];
+            try {
+                userPic = file.getData();
+                photo.setUserPicBmp(userPic);
+                currPic = photo.getUserPicBmp();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+                   /*
+                    Intent intent = new Intent(this, .class);
+                    intent.putExtra("profilePicture", data);
+                    startActivity(intent);
+                   */
+
+
+        return currPic;
+    }
+
+
+
 
 
 }
